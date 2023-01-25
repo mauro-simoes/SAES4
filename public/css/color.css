@@ -1,0 +1,8 @@
+:root{
+    --bg : #FFFFFF;
+    --font : #000000;
+}   
+.dark-mode{
+    --bg : #1c232a ;
+    --font : #9a8d8d ;
+}
