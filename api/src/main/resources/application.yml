@@ -1,0 +1,13 @@
+spring:
+  datasource:
+    url: jdbc:mysql://sql303.epizy.com:3306/epiz_33435558_SAE_db
+    username: epiz_33435558
+    password: SmZlMhkexsY
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
