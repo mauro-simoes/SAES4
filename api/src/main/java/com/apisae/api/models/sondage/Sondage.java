@@ -1,6 +1,6 @@
 package com.apisae.api.models.sondage;
 
-import com.apisae.api.models.choix.Choix;
+import com.apisae.api.models.reponse.Reponse;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -19,12 +19,10 @@ public class Sondage {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
-    @Column(name = "nombre_reponse", nullable = false)
-    private int nbResponseAttendues;
+    @Column(name = "nom", nullable = false)
+    private String nom;
 
     @OneToMany(mappedBy = "sondage")
     private List<Question> questions;
 
-    @OneToMany(mappedBy = "sondage")
-    private List<Choix> choix;
 }

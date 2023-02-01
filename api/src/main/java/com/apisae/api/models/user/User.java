@@ -1,12 +1,18 @@
 package com.apisae.api.models.user;
 
 
-import com.apisae.api.models.choix.Choix;
+import com.apisae.api.enums.RoleUser;
+import com.apisae.api.models.reponse.Reponse;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -15,7 +21,7 @@ import java.util.List;
 @Data
 @Entity
 @Table(name = "utilisateur")
-public class User {
+public class User implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
@@ -34,6 +40,54 @@ public class User {
     private Date dateNaissance;
 
     @OneToMany(mappedBy = "utilisateur")
-    private List<Choix> choix;
+    private List<Reponse> choix;
+
+    @Column(name = "mot_de_passe",nullable = false)
+    private String password;
+
+    @Column(name = "email",nullable = false)
+    private String email;
+
+    private Boolean enabled;
+
+    private Boolean locked;
+
+    @Enumerated(EnumType.STRING)
+    private RoleUser roleUser;
+
+
+    @Override
+    public String getUsername() {
+        return email;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return !locked;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        SimpleGrantedAuthority authority = new SimpleGrantedAuthority(roleUser.name());
+        return Collections.singletonList(authority);
+    }
+
+    @Override
+    public String getPassword() {return password;}
 
 }
