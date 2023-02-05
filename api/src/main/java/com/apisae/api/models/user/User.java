@@ -17,7 +17,6 @@ import java.util.Date;
 import java.util.List;
 
 @NoArgsConstructor
-@AllArgsConstructor
 @Data
 @Entity
 @Table(name = "utilisateur")
@@ -45,7 +44,7 @@ public class User implements UserDetails {
     @Column(name = "mot_de_passe",nullable = false)
     private String password;
 
-    @Column(name = "email",nullable = false)
+    @Column(name = "email",nullable = false,unique = true)
     private String email;
 
     private Boolean enabled;
@@ -55,6 +54,17 @@ public class User implements UserDetails {
     @Enumerated(EnumType.STRING)
     private RoleUser roleUser;
 
+    public User(String email, String nom, String prenom, String password, String ville, Date dateNaissance){
+        this.email = email;
+        this.nom = nom;
+        this.prenom = prenom;
+        this.password = password;
+        this.ville = ville;
+        this.dateNaissance = dateNaissance;
+        this.roleUser = RoleUser.USER;
+        this.enabled = true;
+        this.locked = false;
+    };
 
     @Override
     public String getUsername() {
