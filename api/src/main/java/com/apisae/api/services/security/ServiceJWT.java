@@ -20,7 +20,7 @@ public class ServiceJWT implements IServiceJWT{
 
     private static final String KEY = "66546A576E5A7234743777217A25432A462D4A614E645267556B587032733576";
 
-    private static final Long EXPIRATION = TimeUnit.DAYS.toMillis(1); // 7 days
+    private static final Long EXPIRATION = TimeUnit.DAYS.toMillis(1); // 1 jour
 
     @Override
     public String generateToken(UserDetails userDetails){

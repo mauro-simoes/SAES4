@@ -9,6 +9,7 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -23,7 +24,7 @@ public class AuthentificationController {
     private final IServiceAuthentifiaction serviceAuthentifiaction;
 
 
-    @RequestMapping("/creer-compte")
+    @PostMapping ("/creer-compte")
     public ResponseEntity<Object> creerCompte(@NonNull @RequestBody RequeteCreationCompte requete){
         if(!requeteCreationValide(requete))
             return ResponseEntity.badRequest().body("Les champs sont invalides");
@@ -46,7 +47,7 @@ public class AuthentificationController {
                 requete.getDateNaissance() != null;
     }
 
-    @RequestMapping("/authentifier")
+    @PostMapping("/authentifier")
     public ResponseEntity<Object> authenticate(@NonNull @RequestBody RequeteAuth requete){
         if(!requeteAuthValide(requete))
             return ResponseEntity.badRequest().body("Les champs sont invalides");

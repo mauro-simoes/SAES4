@@ -1,6 +1,5 @@
 package com.apisae.api.models.sondage;
 
-import com.apisae.api.models.reponse.Reponse;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
