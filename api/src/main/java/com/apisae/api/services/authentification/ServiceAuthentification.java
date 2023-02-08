@@ -19,7 +19,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class ServiceAuthentification implements IServiceAuthentifiaction{
+public class ServiceAuthentification implements IServiceAuthentification {
 
     private final UserRepository userRepository;
 

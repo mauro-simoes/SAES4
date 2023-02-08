@@ -5,7 +5,7 @@ import com.apisae.api.models.authentification.RequeteAuth;
 import com.apisae.api.models.authentification.RequeteCreationCompte;
 import org.springframework.lang.NonNull;
 
-public interface IServiceAuthentifiaction {
+public interface IServiceAuthentification {
 
     ReponseAuth creerCompte(@NonNull RequeteCreationCompte request);
 

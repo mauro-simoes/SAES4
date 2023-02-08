@@ -5,7 +5,7 @@ import com.apisae.api.models.authentification.ReponseAuth;
 import com.apisae.api.models.authentification.RequeteAuth;
 import com.apisae.api.models.authentification.RequeteCreationCompte;
 import com.apisae.api.models.error.ErrorBody;
-import com.apisae.api.services.authentification.IServiceAuthentifiaction;
+import com.apisae.api.services.authentification.IServiceAuthentification;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +22,7 @@ import java.util.regex.Pattern;
 @RequestMapping(path = "/authentification")
 public class AuthentificationController {
 
-    private final IServiceAuthentifiaction serviceAuthentifiaction;
+    private final IServiceAuthentification serviceAuthentifiaction;
 
 
     @PostMapping ("/creer-compte")
