@@ -1,12 +1,17 @@
 package com.apisae.api.repositories.sondage;
 
 import com.apisae.api.models.sondage.Sondage;
+import com.apisae.api.projections.SondageProjection;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
+import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 
-@Repository
+
 public interface SondageRepository extends JpaRepository<Sondage,Long> {
-    List<Sondage> findAll();
+
+    @Query(value="SELECT s.id as id,s.nom as nom FROM Sondage s")
+    List<SondageProjection> findAllSondage();
+
 }
+

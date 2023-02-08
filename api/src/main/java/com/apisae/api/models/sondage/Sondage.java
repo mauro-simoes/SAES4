@@ -17,12 +17,25 @@ public class Sondage {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @Column(name = "id")
     private Long id;
 
     @Column(name = "nom", nullable = false)
     private String nom;
 
+    public Long getId() {
+        return id;
+    }
+
+    public String getNom() {
+        return nom;
+    }
+
     @OneToMany(mappedBy = "sondage")
     private List<Question> questions;
+
+    public List<Question> getQuestions() {
+        return questions;
+    }
 
 }
