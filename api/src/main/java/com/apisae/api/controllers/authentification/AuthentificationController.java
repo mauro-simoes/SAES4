@@ -4,6 +4,7 @@ import com.apisae.api.exceptions.NotUniqueUserEx;
 import com.apisae.api.models.authentification.ReponseAuth;
 import com.apisae.api.models.authentification.RequeteAuth;
 import com.apisae.api.models.authentification.RequeteCreationCompte;
+import com.apisae.api.models.error.ErrorBody;
 import com.apisae.api.services.authentification.IServiceAuthentifiaction;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -26,13 +27,16 @@ public class AuthentificationController {
 
     @PostMapping ("/creer-compte")
     public ResponseEntity<Object> creerCompte(@NonNull @RequestBody RequeteCreationCompte requete){
-        if(!requeteCreationValide(requete))
-            return ResponseEntity.badRequest().body("Les champs sont invalides");
+        if(!requeteCreationValide(requete)){
+            ErrorBody error = new ErrorBody("Les champs sont invalides");
+            return ResponseEntity.badRequest().body(error);
+        }
         ReponseAuth reponse;
         try{
             reponse = serviceAuthentifiaction.creerCompte(requete);
         }catch (NotUniqueUserEx e){
-            return ResponseEntity.internalServerError().body(e.getMessage());
+            ErrorBody error = new ErrorBody(e.getMessage());
+            return ResponseEntity.internalServerError().body(error);
         }
         return ResponseEntity.ok().body(reponse);
     }
@@ -49,13 +53,16 @@ public class AuthentificationController {
 
     @PostMapping("/authentifier")
     public ResponseEntity<Object> authenticate(@NonNull @RequestBody RequeteAuth requete){
-        if(!requeteAuthValide(requete))
-            return ResponseEntity.badRequest().body("Les champs sont invalides");
+        if(!requeteAuthValide(requete)){
+            ErrorBody error = new ErrorBody("Les champs sont invalides");
+            return ResponseEntity.badRequest().body(error);
+        }
         ReponseAuth reponse;
         try{
             reponse = serviceAuthentifiaction.authentifier(requete);
         }catch (BadCredentialsException e){
-            return ResponseEntity.internalServerError().body(e.getMessage());
+            ErrorBody error = new ErrorBody(e.getMessage());
+            return ResponseEntity.internalServerError().body(error);
         }
         return ResponseEntity.ok(reponse);
     }
