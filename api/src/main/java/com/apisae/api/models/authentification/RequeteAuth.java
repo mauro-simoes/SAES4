@@ -1,13 +1,14 @@
 package com.apisae.api.models.authentification;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
-public class RequeteAuth {
-    private String email;
-    private String password;
+public class RequeteAuth extends Requete{
+
+    public RequeteAuth(String email, String password){
+        super(email, password);
+    }
+
+    @Override
+    protected Boolean contenuEstValide() {
+        return mailEstValide() && passwordEstValide();
+    }
 }
