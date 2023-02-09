@@ -2,6 +2,7 @@ package com.apisae.api.controllers.authentification;
 
 import com.apisae.api.exceptions.NotUniqueUserEx;
 import com.apisae.api.models.authentification.ReponseAuth;
+import com.apisae.api.models.authentification.RequeteAuth;
 import com.apisae.api.models.authentification.RequeteCreationCompte;
 import com.apisae.api.models.error.ErrorBody;
 import com.apisae.api.services.authentification.IServiceAuthentification;
@@ -15,6 +16,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.BadCredentialsException;
 
 import java.sql.Date;
 
@@ -72,6 +74,44 @@ class AuthentificationControllerTest {
     }
 
     @Test
-    void authenticate() {
+    @DisplayName("Test champs invalides pour authentification")
+    void authenticate_ShouldReturnBadRequestWhenFieldsAreInvalid() {
+        ResponseEntity<Object> expected = ResponseEntity.badRequest().body(new ErrorBody("Les champs sont invalides"));
+
+        RequeteAuth requeteAuth = new RequeteAuth(" ", " brr");
+
+        ResponseEntity<Object> actual = authentificationController.authenticate(requeteAuth);
+
+        Assertions.assertThat(actual).usingRecursiveComparison().isEqualTo(expected);
+    }
+
+    @Test
+    @DisplayName("Test infos incorrectes pour authentification")
+    void authenticate_ShouldReturnInternalServerErrorWhenCredentialsAreIncorrect() {
+        ResponseEntity<Object> expected = ResponseEntity.internalServerError().body(new ErrorBody("Email ou mot de passe incorrect"));
+
+        RequeteAuth requeteAuth = new RequeteAuth("test@saes4.com", "motDePasse");
+
+        Mockito.doThrow(new BadCredentialsException("Email ou mot de passe incorrect"))
+                .when(serviceAuthentification).authentifier(ArgumentMatchers.any(RequeteAuth.class));
+
+        ResponseEntity<Object> actual = authentificationController.authenticate(requeteAuth);
+
+        Assertions.assertThat(actual).usingRecursiveComparison().isEqualTo(expected);
+    }
+
+    @Test
+    @DisplayName("Test OK pour authentification")
+    void authenticate_ShouldReturnTokenWhenOK() {
+        ResponseEntity<Object> expected = ResponseEntity.ok().body(new ReponseAuth("eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJib2JAZ21haWwuY29tIiwiaWF0IjoxNjc1ODYzODg5LCJleHAiOjE3MDczOTk4ODl9.AdyDDS-iZYnDQECzERpXI_fXIJftBgFcgY4p8FbVBf8"));
+
+        RequeteAuth requeteAuth = new RequeteAuth("test@saes4.com", "motDePasse");
+
+        Mockito.doReturn(new ReponseAuth("eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJib2JAZ21haWwuY29tIiwiaWF0IjoxNjc1ODYzODg5LCJleHAiOjE3MDczOTk4ODl9.AdyDDS-iZYnDQECzERpXI_fXIJftBgFcgY4p8FbVBf8"))
+                .when(serviceAuthentification).authentifier(ArgumentMatchers.any(RequeteAuth.class));
+
+        ResponseEntity<Object> actual = authentificationController.authenticate(requeteAuth);
+
+        Assertions.assertThat(actual).usingRecursiveComparison().isEqualTo(expected);
     }
 }
