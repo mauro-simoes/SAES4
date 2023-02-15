@@ -8,7 +8,7 @@ import java.util.TimeZone;
 
 @Getter
 public class RequeteCreationCompte extends Requete{
-
+    private final static int AGE_MIN = 13;
     private final String nom;
     private final String prenom;
     private final String ville;
@@ -23,18 +23,18 @@ public class RequeteCreationCompte extends Requete{
     }
 
     @Override
-    protected Boolean contenuEstValide() {
+    public Boolean estValide() {
         return mailEstValide() &&
                 passwordEstValide() &&
                 champEstValide(nom) &&
-                champEstValide(prenom)  &&
+                champEstValide(prenom) &&
                 champEstValide(ville) &&
                 dateNaissanceEstValide();
     }
 
     private Boolean dateNaissanceEstValide(){
         Calendar c = Calendar.getInstance(TimeZone.getTimeZone("Europe/Paris"));
-        c.add(Calendar.YEAR, -13);
+        c.add(Calendar.YEAR, -AGE_MIN);
         long result = c.getTimeInMillis();
         return dateNaissance != null && dateNaissance.before(new java.util.Date(result));
     }

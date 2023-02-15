@@ -8,7 +8,7 @@ public class RequeteAuth extends Requete{
     }
 
     @Override
-    protected Boolean contenuEstValide() {
+    public Boolean estValide() {
         return mailEstValide() && passwordEstValide();
     }
 }
