@@ -1,6 +1,11 @@
+/**
+ * @author Mauro Simoes
+ */
+
 package com.apisae.api.services.authentification;
 
 import com.apisae.api.exceptions.NotUniqueUserEx;
+import com.apisae.api.exceptions.RequeteInvalideEx;
 import com.apisae.api.models.authentification.ReponseAuth;
 import com.apisae.api.models.authentification.RequeteAuth;
 import com.apisae.api.models.authentification.RequeteCreationCompte;
@@ -30,7 +35,8 @@ public class ServiceAuthentification implements IServiceAuthentification {
     private final AuthenticationManager authenticationManager;
 
     @Override
-    public ReponseAuth creerCompte(@NonNull RequeteCreationCompte requete) {
+    public ReponseAuth creerCompte(@NonNull RequeteCreationCompte requete) throws NotUniqueUserEx,RequeteInvalideEx{
+        if(!requete.estValide()) throw new RequeteInvalideEx("Les champs sont invalides");
         User user = new User(
                 requete.getEmail(),
                 requete.getNom(),
@@ -49,7 +55,8 @@ public class ServiceAuthentification implements IServiceAuthentification {
     }
 
     @Override
-    public ReponseAuth authentifier(@NonNull RequeteAuth requete) {
+    public ReponseAuth authentifier(@NonNull RequeteAuth requete) throws BadCredentialsException,RequeteInvalideEx{
+        if(!requete.estValide()) throw new RequeteInvalideEx("Les champs sont invalides");
         try{
             authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(

@@ -1,5 +1,8 @@
 package com.apisae.api.models.authentification;
 
+/**
+ * @author Mauro Simoes
+ */
 
 public class RequeteAuth extends Requete{
 

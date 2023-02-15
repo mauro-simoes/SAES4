@@ -4,14 +4,12 @@ import com.apisae.api.models.sondage.SondageDTO;
 import com.apisae.api.models.sondage.SondageQuestionDTO;
 import com.apisae.api.services.sondage.IServiceSondage;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
+
+@CrossOrigin("http://localhost:3000")
 @RequestMapping(path = "/api/sondage")
 @RestController
 @RequiredArgsConstructor

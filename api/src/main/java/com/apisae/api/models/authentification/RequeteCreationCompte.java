@@ -6,6 +6,10 @@ import java.sql.Date;
 import java.util.Calendar;
 import java.util.TimeZone;
 
+/**
+ * @author Mauro Simoes
+ */
+
 @Getter
 public class RequeteCreationCompte extends Requete{
     private final static int AGE_MIN = 13;
@@ -32,6 +36,11 @@ public class RequeteCreationCompte extends Requete{
                 dateNaissanceEstValide();
     }
 
+    /**
+     * Verifie si l'utilisateur a plus de 13 ans
+     *
+     * @return vrai si l'utilisateur a plus de 13 ans, faux sinon
+     */
     private Boolean dateNaissanceEstValide(){
         Calendar c = Calendar.getInstance(TimeZone.getTimeZone("Europe/Paris"));
         c.add(Calendar.YEAR, -AGE_MIN);

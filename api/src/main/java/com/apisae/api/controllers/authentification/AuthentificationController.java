@@ -10,11 +10,13 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+/**
+ * @author Mauro Simoes
+ */
+
+@CrossOrigin("http://localhost:3000")
 @RequiredArgsConstructor
 @RestController
 @RequestMapping(path = "/authentification")
@@ -22,7 +24,11 @@ public class AuthentificationController {
 
     private final IServiceAuthentification serviceAuthentifiaction;
 
-
+    /**
+     * Cree un compte utilisateur
+     *
+     * @return le jeton d'access de l'utilisateur si le compte est cree avec success, un message d'erreur sinon
+     */
     @PostMapping ("/creer-compte")
     public ResponseEntity<Object> creerCompte(@NonNull @RequestBody RequeteCreationCompte requete){
         if(!requete.estValide()){
@@ -39,6 +45,11 @@ public class AuthentificationController {
         return ResponseEntity.ok().body(reponse);
     }
 
+    /**
+     * Authentifie un utilisateur
+     *
+     * @return le jeton d'access de l'utilisateur si le compte est cree avec success, un message d'erreur sinon
+     */
     @PostMapping("/authentifier")
     public ResponseEntity<Object> authenticate(@NonNull @RequestBody RequeteAuth requete){
         if(!requete.estValide()){

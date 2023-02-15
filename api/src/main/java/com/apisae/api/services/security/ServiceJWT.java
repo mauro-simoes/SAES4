@@ -11,9 +11,12 @@ import org.springframework.stereotype.Service;
 import java.security.Key;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
+
+/**
+ * @author Mauro Simoes
+ */
 
 @Service
 public class ServiceJWT implements IServiceJWT{
@@ -24,14 +27,9 @@ public class ServiceJWT implements IServiceJWT{
 
     @Override
     public String generateToken(UserDetails userDetails){
-        return generateToken(new HashMap<>(), userDetails);
-    }
-
-    @Override
-    public String generateToken(Map<String, Object> extraClaims, UserDetails userDetails){
         return Jwts
                 .builder()
-                .setClaims(extraClaims)
+                .setClaims(new HashMap<>())
                 .setSubject(userDetails.getUsername())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION))
@@ -45,11 +43,30 @@ public class ServiceJWT implements IServiceJWT{
     }
 
     @Override
-    public <T> T extractClaim(String jwtToken, Function<Claims, T> claimsResolver){
+    public boolean tokenIsValid(String jwtToken, UserDetails userDetails){
+        final String username = extractUsername(jwtToken);
+        return (username.equals(userDetails.getUsername())) && !tokenIsExpired(jwtToken);
+    }
+
+
+    /**
+     * Extrait une information contenu dans un jeton JWT
+     *
+     * @param jwtToken le jeton
+     * @param claimsResolver la fonction correspondant a l'extraction l'information voulue
+     * @return l'information
+     */
+    private <T> T extractClaim(String jwtToken, Function<Claims, T> claimsResolver){
         final Claims claims = extractAllClaims(jwtToken);
         return claimsResolver.apply(claims);
     }
 
+    /**
+     * Extrait toutes les informations contenues dans un jeton JWT
+     *
+     * @param jwtToken le jeton
+     * @return les informations
+     */
     private Claims extractAllClaims(String jwtToken){
         return Jwts
                 .parserBuilder()
@@ -64,16 +81,22 @@ public class ServiceJWT implements IServiceJWT{
         return Keys.hmacShaKeyFor(keyBytes);
     }
 
-    @Override
-    public boolean tokenIsValid(String jwtToken, UserDetails userDetails){
-        final String username = extractUsername(jwtToken);
-        return (username.equals(userDetails.getUsername())) && !tokenIsExpired(jwtToken);
-    }
-
+    /**
+     * Verifie si jeton JWT a expire
+     *
+     * @param jwtToken le jeton
+     * @return vrai si le jeton a expire, false sinon
+     */
     private boolean tokenIsExpired(String jwtToken) {
         return extractExpiration(jwtToken).before(new Date());
     }
 
+    /**
+     * Extrait la date d'expiration d'un jeton JWT
+     *
+     * @param jwtToken le jeton
+     * @return la date d'expiration
+     */
     private Date extractExpiration(String jwtToken) {
         return extractClaim(jwtToken,Claims::getExpiration);
     }
