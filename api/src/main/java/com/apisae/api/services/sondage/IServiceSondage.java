@@ -1,11 +1,15 @@
 package com.apisae.api.services.sondage;
 
 
-import com.apisae.api.projections.SondageProjection;
+import com.apisae.api.models.sondage.SondageDTO;
+import com.apisae.api.models.sondage.SondageQuestionDTO;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface IServiceSondage{
 
-    List<SondageProjection> findAllSondage() throws RuntimeException;
+    List<SondageDTO> findAllSondage();
+
+    SondageQuestionDTO getQuestion(Long id);
 }

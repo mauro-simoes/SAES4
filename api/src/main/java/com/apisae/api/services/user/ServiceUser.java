@@ -4,6 +4,7 @@ import com.apisae.api.models.user.UserDTO;
 import com.apisae.api.repositories.user.UserRepository;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -14,7 +15,6 @@ import org.springframework.stereotype.Service;
 public class ServiceUser implements IServiceUser {
 
     private final UserRepository userRepository;
-
     private final UserDTOMapper userDTOMapper;
 
 
