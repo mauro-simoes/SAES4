@@ -26,6 +26,12 @@
     <filter-actions connection-id="ded318eb-f41f-4098-bf9e-b879f5f286c4" dataset="saes4.sondage" active-filter-id="" />
     <filter-actions connection-id="ded318eb-f41f-4098-bf9e-b879f5f286c4" dataset="saes4.aliment" active-filter-id="" />
   </component>
+  <component name="DBNavigator.Project.ExecutionManager">
+    <retain-sticky-names value="false" />
+  </component>
+  <component name="DBNavigator.Project.FileConnectionMappingManager">
+    <mapping file-url="file://$PROJECT_DIR$/api/src/main/resources/schema.sql" connection-id="ded318eb-f41f-4098-bf9e-b879f5f286c4" session-id="MAIN" current-schema="mysql" />
+  </component>
   <component name="DBNavigator.Project.ObjectQuickFilterManager">
     <last-used-operator value="EQUAL" />
     <filters />
@@ -34,15 +40,15 @@
     <connections>
       <connection id="ded318eb-f41f-4098-bf9e-b879f5f286c4" active="true" signed="true">
         <database>
-          <name value="Connection" />
+          <name value="sae Local" />
           <description value="" />
-          <database-type value="GENERIC" />
+          <database-type value="MYSQL" />
           <config-type value="CUSTOM" />
-          <database-version value="10.6" />
-          <driver-source value="EXTERNAL" />
+          <database-version value="5.5" />
+          <driver-source value="BUILTIN" />
           <driver-library value="$PROJECT_DIR$/C:/connectors/mariadb-java-client-3.1.2.jar" />
-          <driver value="org.mariadb.jdbc.Driver" />
-          <url value="jdbc:mariadb://localhost:3306/saes4" />
+          <driver value="" />
+          <url value="jdbc:mysql://localhost:3306/mysql" />
           <type value="USER" />
           <user value="root" />
           <deprecated-pwd value="" />
@@ -517,5 +523,8 @@
         </visibility-settings>
       </environment>
     </general-settings>
+  </component>
+  <component name="DBNavigator.Project.StatementExecutionManager">
+    <execution-variables />
   </component>
 </project>
