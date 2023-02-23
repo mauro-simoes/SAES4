@@ -37,4 +37,9 @@ public class Sondage {
         return questions;
     }
 
+    @Override
+    public String toString(){
+        return "{id = " + id + ", nom = " + nom +"}";
+    }
+
 }

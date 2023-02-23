@@ -20,4 +20,9 @@ public class ReponseAliment extends ReponsePossible{
     @ManyToOne
     @JoinColumn(name="aliment", nullable = false)
     private Aliment aliment;
+
+    @Override
+    public String getValue() {
+        return aliment.getAlim_nom_fr();
+    }
 }

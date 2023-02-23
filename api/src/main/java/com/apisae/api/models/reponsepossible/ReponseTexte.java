@@ -20,4 +20,8 @@ public class ReponseTexte extends ReponsePossible {
     private Long id;
 
     private String texte;
+    @Override
+    public String getValue() {
+        return texte;
+    }
 }

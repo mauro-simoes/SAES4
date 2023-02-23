@@ -23,4 +23,6 @@ public abstract class ReponsePossible {
     @JoinColumn(name="question", nullable = false)
     private Question question;
 
+    public abstract String getValue();
+
 }

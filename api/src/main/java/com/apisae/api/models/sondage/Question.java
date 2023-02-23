@@ -41,4 +41,15 @@ public class Question {
     @OneToMany(mappedBy = "question")
     private List<ReponsePossible> reponses;
 
+
+    @Override
+    public String toString() {
+        return "Question{" +
+                "id=" + id +
+                ", texte='" + texte + '\'' +
+                ", nbResponseMin=" + nbResponseMin +
+                ", nbResponseMax=" + nbResponseMax +
+                ", sondage=" + sondage.getId() +
+                '}';
+    }
 }
