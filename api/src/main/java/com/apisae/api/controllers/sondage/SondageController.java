@@ -25,17 +25,16 @@ public class SondageController {
     }
 
     @GetMapping(path ="/get-question-of-sondage/{id}")
-    public Map<String,List<String>> getQuestions(@PathVariable(name = "id") Long id){
-        //ResponseEntity<Object>
-        //Map<Long,String>  questions ;
-        return serviceSondage.getQuestion(id);
+    public ResponseEntity<Object> getQuestions(@PathVariable(name = "id") Long id){
 
-        //try{
-            //questions = serviceSondage.getQuestion(id);
-        //}catch(Exception e){
-            //return ResponseEntity.internalServerError().body(new ErrorBody(e.getMessage()));
-        //}
-        //return ResponseEntity.ok(questions);
+        Map<String,List<String>>  questions ;
+
+        try{
+            questions = serviceSondage.getQuestion(id);
+        }catch(Exception e){
+            return ResponseEntity.internalServerError().body(new ErrorBody(e.getMessage()));
+        }
+        return ResponseEntity.ok(questions);
     }
 
     @GetMapping(path ="/get-reponses-utilisateur/{id}")
