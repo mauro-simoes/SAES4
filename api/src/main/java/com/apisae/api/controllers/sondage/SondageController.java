@@ -25,11 +25,10 @@ public class SondageController {
     }
 
     @GetMapping(path ="/get-question-of-sondage/{id}")
-    public Map<Long,List<String>> getQuestions(@PathVariable(name = "id") Long id){
+    public Map<String,List<String>> getQuestions(@PathVariable(name = "id") Long id){
         //ResponseEntity<Object>
         //Map<Long,String>  questions ;
         return serviceSondage.getQuestion(id);
-
 
         //try{
             //questions = serviceSondage.getQuestion(id);
