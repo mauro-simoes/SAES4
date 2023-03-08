@@ -4,7 +4,6 @@ import com.apisae.api.models.reponse.Reponse;
 import com.apisae.api.models.sondage.Question;
 import com.apisae.api.models.sondage.Sondage;
 import com.apisae.api.models.sondage.SondageDTO;
-import com.apisae.api.models.sondage.SondageQuestionDTO;
 import com.apisae.api.repositories.reponse.ReponseRepository;
 import com.apisae.api.repositories.sondage.SondageRepository;
 import com.apisae.api.services.user.UserOutils;
@@ -20,7 +19,6 @@ public class ServiceSondage implements IServiceSondage {
 
     private final SondageRepository sondageRepository;
     private final SondageDTOMapper sondageDTOMapper;
-    private final SondageQuestionDTOMapper sondageQuestionDTOMapper;
 
     private final ReponseRepository reponseRepository;
 
@@ -33,16 +31,16 @@ public class ServiceSondage implements IServiceSondage {
     }
 
     @Override
-    public SondageQuestionDTO getQuestion(Long id) {
-        Optional<SondageQuestionDTO> result = sondageRepository.findById(id)
-                .map(sondageQuestionDTOMapper);
+    public Map<Long,String> getQuestion(Long id) {
+        Sondage sondage = sondageRepository.findById(id).orElseThrow(() -> new RuntimeException(String.format("Le sondage avec l'id %d n'a pas été trouvé",id)));
+        Map<Long,String> question_map = new LinkedHashMap<>();
 
-        if(result.isPresent()) {
-            return result.get();
-        }else {
-            throw new RuntimeException();
+        for (Question question : sondage.getQuestions()) {
+            question_map.put(question.getId(),question.getTexte());
         }
+        return question_map;
     }
+
     public Map<String,List<String>>  getReponsesUtilisateurSondage(Long idSondage){
 
         String email = UserOutils.getCurrentUserEmail();

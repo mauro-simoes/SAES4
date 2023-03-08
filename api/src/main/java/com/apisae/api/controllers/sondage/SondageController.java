@@ -2,7 +2,6 @@ package com.apisae.api.controllers.sondage;
 
 import com.apisae.api.models.error.ErrorBody;
 import com.apisae.api.models.sondage.SondageDTO;
-import com.apisae.api.models.sondage.SondageQuestionDTO;
 import com.apisae.api.services.sondage.IServiceSondage;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -26,8 +25,14 @@ public class SondageController {
     }
 
     @GetMapping(path ="/get/{id}")
-    public SondageQuestionDTO getQuestions(@PathVariable(name = "id") Long id){
-        return serviceSondage.getQuestion(id);
+    public ResponseEntity<Object> getQuestions(@PathVariable(name = "id") Long id){
+        Map<Long,String>  questions ;
+        try{
+            questions = serviceSondage.getQuestion(id);
+        }catch(Exception e){
+            return ResponseEntity.internalServerError().body(new ErrorBody(e.getMessage()));
+        }
+        return ResponseEntity.ok(questions);
     }
 
     @GetMapping(path ="/get-reponses-utilisateur/{id}")
