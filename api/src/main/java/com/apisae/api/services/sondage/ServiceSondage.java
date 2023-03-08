@@ -11,7 +11,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -22,12 +21,26 @@ public class ServiceSondage implements IServiceSondage {
 
     private final ReponseRepository reponseRepository;
 
-    public List<SondageDTO> findAllSondage() {
-        return sondageRepository.findAll()
+    public List<Map<String,Object>> findAllSondage() {
+        List<SondageDTO> sondage = sondageRepository.findAll()
                 .stream()
                 .map(sondageDTOMapper)
-                .collect(Collectors.toList())
-                ;
+                .toList();
+
+        Map<String,Object> sondage_map = new LinkedHashMap<>();
+        List<Map<String,Object>> allSondage = new ArrayList<>();
+
+        for (SondageDTO s : sondage){
+
+            sondage_map.put("id",s.id());
+            sondage_map.put("nom",s.nom());
+            sondage_map.put("aRepondu",utilisateurARepondu(s.id()));
+            sondage_map.put("nbQuestion",nbQuestionSondage(s.id()));
+
+            allSondage.add(sondage_map);
+            sondage_map = new LinkedHashMap<>();
+        }
+        return allSondage;
     }
 
     @Override
@@ -76,6 +89,12 @@ public class ServiceSondage implements IServiceSondage {
         }
 
         return aRepondu;
+    }
+
+
+    public Integer nbQuestionSondage(Long idSondage) {
+        Sondage sondage = sondageRepository.findById(idSondage).orElseThrow(() -> new RuntimeException(String.format("Le sondage avec l'id %d n'a pas été trouvé",idSondage)));
+        return sondage.getQuestions().size();
     }
 
 

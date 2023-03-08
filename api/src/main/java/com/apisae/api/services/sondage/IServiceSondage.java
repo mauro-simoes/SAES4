@@ -8,11 +8,13 @@ import java.util.Map;
 
 public interface IServiceSondage{
 
-    List<SondageDTO> findAllSondage();
+    List<Map<String,Object>> findAllSondage();
 
     Map<Long,String> getQuestion(Long id);
 
     Map<String,List<String>>  getReponsesUtilisateurSondage(Long idSondage);
 
     boolean utilisateurARepondu(Long idSondage);
+
+    Integer nbQuestionSondage(Long idSondage);
 }

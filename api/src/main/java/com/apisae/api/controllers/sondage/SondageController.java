@@ -20,7 +20,7 @@ public class SondageController {
     private final IServiceSondage serviceSondage;
 
     @GetMapping(path ="/get-all")
-    public List<SondageDTO> getAllSondage(){
+    public List<Map<String,Object>> getAllSondage(){
         return serviceSondage.findAllSondage();
     }
 
