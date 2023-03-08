@@ -43,14 +43,14 @@ public class ServiceSondage implements IServiceSondage {
         return allSondage;
     }
 
-    @Override
-    public Map<Long,String> getQuestion(Long id) {
+    public Map<Long,List<String>> getQuestion(Long id) {
         Sondage sondage = sondageRepository.findById(id).orElseThrow(() -> new RuntimeException(String.format("Le sondage avec l'id %d n'a pas été trouvé",id)));
-        Map<Long,String> question_map = new LinkedHashMap<>();
+        Map<Long,List<String>> question_map = new LinkedHashMap<>();
 
         for (Question question : sondage.getQuestions()) {
-            question_map.put(question.getId(),question.getTexte());
+            question_map.put(question.getId(),new ArrayList<>(List.of(question.getTexte(),question.getTypeReponse().toString())));
         }
+
         return question_map;
     }
 

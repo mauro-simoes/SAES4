@@ -10,7 +10,7 @@ public interface IServiceSondage{
 
     List<Map<String,Object>> findAllSondage();
 
-    Map<Long,String> getQuestion(Long id);
+    Map<Long,List<String>> getQuestion(Long id);
 
     Map<String,List<String>>  getReponsesUtilisateurSondage(Long idSondage);
 
