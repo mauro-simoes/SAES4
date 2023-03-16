@@ -1,0 +1,49 @@
+:root {
+    --dark-blue : #0081A7;
+    --blue : #00AFB9;
+    --yellow : #FDFCDC;
+    --peach : #FED9B7;
+    --red : #F07167;
+    
+    --border-dark-blue : #00669F;
+    --border-blue : #0096A9;
+    --border-yellow : #F9F9D7;
+    --border-peach : #FACDA3;
+    --border-red : #EB5E4F;
+    
+    --box-shadow-dark-blue : #006EAD;
+    --box-shadow-blue : #00B0C3;
+    --box-shadow-yellow : #FBFBD5;
+    --box-shadow-peach : #FDD6A9;
+    --box-shadow-red : #F26E57;
+    
+    --font-color-dark-blue : #FFFFFF;
+    --font-color-blue : #FFFFFF;
+    --font-color-yellow : #000000;
+    --font-color-peach : #000000;
+}
+
+.darkmode {
+    --dark-blue : #00669F;
+    --blue : #0096A9;
+    --yellow : #1C1C1C;
+    --peach : #1C1C1C;
+    --red : #EB5E4F;
+    
+    --border-dark-blue : #005B88;
+    --border-blue : #007B8B;
+    --border-yellow : #151515;
+    --border-peach : #151515;
+    --border-red : #D04F3F;
+    
+    --box-shadow-dark-blue : #005B88;
+    --box-shadow-blue : #007B8B;
+    --box-shadow-yellow : #151515;
+    --box-shadow-peach : #151515;
+    --box-shadow-red : #D04F3F;
+    
+    --font-color-dark-blue : #FFFFFF;
+    --font-color-blue : #FFFFFF;
+    --font-color-yellow : #FFFFFF;
+    --font-color-peach : #FFFFFF;
+}

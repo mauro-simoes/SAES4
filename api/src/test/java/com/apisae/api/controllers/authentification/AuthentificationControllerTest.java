@@ -19,6 +19,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
 
 import java.sql.Date;
+import java.util.concurrent.TimeUnit;
 
 
 @ExtendWith(MockitoExtension.class)
@@ -47,7 +48,7 @@ class AuthentificationControllerTest {
     void creerCompte_ShouldReturnInternalServerErrorWhenEmailIsTaken() {
         ResponseEntity<Object> expected = ResponseEntity.internalServerError().body(new ErrorBody("Il existe déjà un utilisateur avec ce mail"));
 
-        RequeteCreationCompte requeteCreationCompte = new RequeteCreationCompte("test@saes4.com", "testNom", "testPrenom", "motDePasse", "Woippy",new Date(System.currentTimeMillis()));
+        RequeteCreationCompte requeteCreationCompte = new RequeteCreationCompte("test@saes4.com", "motDePasse", "testNom", "testPrenom", "Woippy",new Date(960508800000L));
 
         Mockito.doThrow(new NotUniqueUserEx("Il existe déjà un utilisateur avec ce mail"))
                 .when(serviceAuthentification).creerCompte(ArgumentMatchers.any(RequeteCreationCompte.class));
@@ -63,7 +64,7 @@ class AuthentificationControllerTest {
     void creerCompte_ShouldReturnToken() {
         ResponseEntity<Object> expected = ResponseEntity.ok().body(new ReponseAuth("eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJib2JAZ21haWwuY29tIiwiaWF0IjoxNjc1ODYzODg5LCJleHAiOjE3MDczOTk4ODl9.AdyDDS-iZYnDQECzERpXI_fXIJftBgFcgY4p8FbVBf8"));
 
-        RequeteCreationCompte requeteCreationCompte = new RequeteCreationCompte("test@saes4.com", "testNom", "testPrenom", "motDePasse", "Woippy",new Date(System.currentTimeMillis()));
+        RequeteCreationCompte requeteCreationCompte = new RequeteCreationCompte("test@saes4.com", "motDePasse", "testNom", "testPrenom", "Woippy",new Date(960508800000L));
 
         Mockito.doReturn(new ReponseAuth("eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJib2JAZ21haWwuY29tIiwiaWF0IjoxNjc1ODYzODg5LCJleHAiOjE3MDczOTk4ODl9.AdyDDS-iZYnDQECzERpXI_fXIJftBgFcgY4p8FbVBf8"))
                 .when(serviceAuthentification).creerCompte(ArgumentMatchers.any(RequeteCreationCompte.class));
