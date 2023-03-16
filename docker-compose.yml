@@ -1,0 +1,12 @@
+services:
+  api:
+    image: api
+    ports:
+      - "8080:8080"
+
+  front:
+    image: front
+    ports:
+      - "3000:3000"
+    depends_on:
+      - api
