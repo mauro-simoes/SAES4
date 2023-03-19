@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import withRouter from './withRouter';
-
+import SlideShow from './SlideShow';
 
 class Sondage extends React.Component {
   constructor(props) {
+    if(!props.cookies.token) {
+      window.location.href = '/';
+    }
     super(props);
-    console.log(props);
     this.state = {
       nom : props.location.state.nom,
       aRepondu : props.location.state.aRepondu,
@@ -39,14 +41,23 @@ class Sondage extends React.Component {
   }
 
   render() {
+    console.log(this.state.questionsList);
     return (
-      <div>
-        <h1>{this.state.nom}</h1>
-        <h2>{this.state.nbQuestion} Questions</h2>
-        <h2>{this.state.aRepondu ? 'Vous avez déjà répondu à ce sondage' : 'Vous n\'avez pas encore répondu à ce sondage'}</h2>
+      <div className='sondage-container card'>
+        <div className='sondage-header card-header'>
+          <h1>{this.state.nom}</h1>
+          <h2>{this.state.nbQuestion} Questions</h2>
+        </div>
+        {
+          this.state.aRepondu ? <span> Vous avez déja répondu à ce sondage </span> : 
+
+          this.state.questionsList.length === 0
+            ? <div>Chargement...</div>
+            : <SlideShow questions={this.state.questionsList} nbQuestion={this.state.nbQuestion} />
+        }
       </div>
     );
-  }
+}
   
 }
 export default withRouter(Sondage);

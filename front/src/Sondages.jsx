@@ -2,6 +2,9 @@ import React from 'react';
 import { Link } from "react-router-dom";
 class Sondages extends React.Component {
   constructor(props) {
+    if(!props.cookies.token) {
+      window.location.href = '/';
+    }
     super(props);
     this.state = {
       cookies : props.cookies,

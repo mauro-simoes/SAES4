@@ -8,7 +8,8 @@
   justify-content: space-between;
   align-items: center;
 
-  height: 100vh;
+  height: 100%;
+  min-height: 100vh;
   padding: 10px;
 }
 /* HEADER */
@@ -146,12 +147,12 @@ footer{
   }
 }
 
-label {
+.label-default {
   text-align: left;
   padding: 0.25rem;
 }
 
-input {
+.input-default {
   margin: 0.5rem 0;
   padding: 1rem;
   border: none;
@@ -171,6 +172,8 @@ input {
   background: none;
   color: white;
   text-decoration: underline;
+  cursor: pointer;
+  border: none;
 }
 
 .error{
@@ -187,4 +190,25 @@ input {
 .sondage-link{
   text-decoration: none;
   color: var(--font-color-red);
+}
+
+.sondage-container{
+  background-color: #7439db!important;
+  width: 90%;
+}
+
+.slide-show{
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+.progress{
+  width:100%;
+}
+@media screen and (width < 600px) {
+  .slide-show {
+  }
 }
