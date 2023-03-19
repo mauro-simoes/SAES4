@@ -1,11 +1,11 @@
 services:
   api:
-    image: api
+    image: maurosimoes05/sae_s4:api
     ports:
       - "8080:8080"
 
   front:
-    image: front
+    image: maurosimoes05/sae_s4:front
     ports:
       - "3000:3000"
     depends_on:
