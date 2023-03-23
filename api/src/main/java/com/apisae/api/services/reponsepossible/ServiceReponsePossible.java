@@ -2,7 +2,6 @@ package com.apisae.api.services.reponsepossible;
 
 import com.apisae.api.models.reponsepossible.ReponsePossible;
 import com.apisae.api.models.sondage.Question;
-import com.apisae.api.repositories.reponsepossible.ReponsePossibleRepository;
 import com.apisae.api.repositories.sondage.QuestionRepository;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
