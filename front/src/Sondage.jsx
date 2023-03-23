@@ -39,7 +39,7 @@ class Sondage extends React.Component {
 
     // fetch reponses of sondage
     const fullPathReponse = window.location.href;
-    let urlReponse = fullPathReponse.replace('sondage','api/reponse-question/6')
+    let urlReponse = fullPathReponse.replace('sondage','api/reponse-question/2')
     urlReponse = urlReponse.substring(0, urlReponse.length - 2);
     console.log("urlReponse", urlReponse);
     fetch(urlReponse, {
