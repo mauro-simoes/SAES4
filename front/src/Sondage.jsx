@@ -37,11 +37,25 @@ class Sondage extends React.Component {
     .then(data => this.setState({ questionsList: data }))
     .catch(error => console.error(error));
 
-    // checf if user respond to sondage
+    // fetch reponses of sondage
+    const fullPathReponse = window.location.href;
+    let urlReponse = fullPathReponse.replace('sondage','api/reponse-question/6')
+    urlReponse = urlReponse.substring(0, urlReponse.length - 2);
+    console.log("urlReponse", urlReponse);
+    fetch(urlReponse, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      }
+    })
+    .then(response => response.json())
+    .then(data => console.log("reponse", data))
+    .catch(error => console.error(error));
+
   }
 
   render() {
-    console.log(this.state.questionsList);
     return (
       <div className='sondage-container card'>
         <div className='sondage-header card-header'>

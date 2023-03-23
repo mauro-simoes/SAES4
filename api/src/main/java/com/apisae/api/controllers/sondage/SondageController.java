@@ -27,7 +27,7 @@ public class SondageController {
     @GetMapping(path ="/get-question-of-sondage/{id}")
     public ResponseEntity<Object> getQuestions(@PathVariable(name = "id") Long id){
 
-        Map<String,List<String>>  questions ;
+        List<Map<String,String>>  questions ;
 
         try{
             questions = serviceSondage.getQuestion(id);
