@@ -4,6 +4,7 @@ import 'react-bootstrap-typeahead/css/Typeahead.css';
 import 'bootstrap/dist/css/bootstrap.css';
 
 const SlideShow = ({ questions, nbQuestion }) => {
+  console.log("questions", questions);
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [responses, setResponses] = useState({});
   const [multiSelections, setMultiSelections] = useState([]);
@@ -69,7 +70,7 @@ const SlideShow = ({ questions, nbQuestion }) => {
       <h2>{currentQuestionText}</h2>
       <div className='reponses-container'>
         {
-          currentQuestion < nbQuestion ?  renderReponses(currentQuestion) : <span>Chargement...</span>
+          renderReponses(currentQuestion)
         }
       </div>
       <div className="btn-group p-3" role="group" aria-label="Basic example">
