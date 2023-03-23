@@ -4,7 +4,7 @@ import 'react-bootstrap-typeahead/css/Typeahead.css';
 import 'bootstrap/dist/css/bootstrap.css';
 
 const SlideShow = ({ questions, nbQuestion }) => {
-  const [currentQuestion, setCurrentQuestion] = useState(1);
+  const [currentQuestion, setCurrentQuestion] = useState(0);
   const [responses, setResponses] = useState({});
   const [multiSelections, setMultiSelections] = useState([]);
 
@@ -28,15 +28,10 @@ const SlideShow = ({ questions, nbQuestion }) => {
     console.log(multiSelections);
   };
 
-  // increment currentQuestion until it's not undefined
-  // while (questions[currentQuestion] === undefined) {
-  //   setCurrentQuestion(currentQuestion + 1);
-  //   console.log(currentQuestion);
-  //   console.log(questions[currentQuestion]);
-  // }
-
   const currentQuestionData = questions[currentQuestion];
-  const questionText = currentQuestionData[0];
+  const currentQuestionId = currentQuestionData.id;
+  const currentQuestionText = currentQuestionData.contenu;
+  const currentQuestionType = currentQuestionData.type;
 
   const options = [
     { nom: 'Alabama' },
@@ -46,43 +41,42 @@ const SlideShow = ({ questions, nbQuestion }) => {
     { nom: 'California' }]
     ;
 
-  function renderReponses(question, index){
-    if (question[1] === "TEXTE") {
+  function renderReponses( index){
+    if (currentQuestionType === "TEXTE") {
       return (
         <input className='input-default' type="text" onChange={(event) => handleInputChange(index, event.target.value)} />
       );
-    } else if (question[1] === "LIST") {
+    } else if (currentQuestionType === "LIST") {
       return (
         <Typeahead
           id={`typeahead-${index}`}
           multiple
-          onChange={setMultiSelections}
+          onChange={(selected) => handleInputChange(index, selected)}
           options={options}
           placeholder="Choisissez une ou plusieurs réponses..."
-          selected={multiSelections}
+          selected={multiSelections[index]}
           labelKey="nom"
         />
-
       );
     }
   }
 
   return (
     <div className='slide-show'>
-      <div className="progress" role="progressbar" aria-label="Example with label" aria-valuenow={currentQuestion} aria-valuemin="0" aria-valuemax={nbQuestion}>
-        <div className="progress-bar" style={{ width: `${(currentQuestion / nbQuestion) * 100}%` }}><span>{currentQuestion} / {nbQuestion}</span></div>
+      <div className="progress" role="progressbar" aria-label="Example with label" aria-valuenow={currentQuestion} aria-valuemin="1" aria-valuemax={nbQuestion}>
+        <div className="progress-bar" style={{ width: `${(currentQuestion + 1 / nbQuestion) * 100}%` }}><span>{currentQuestion + 1} / {nbQuestion}</span></div>
       </div>
-      <h2>{questionText}</h2>
+      <h2>{currentQuestionText}</h2>
       <div className='reponses-container'>
         {
-          renderReponses(currentQuestionData, currentQuestion)
+          currentQuestion < nbQuestion ?  renderReponses(currentQuestion) : <span>Chargement...</span>
         }
       </div>
       <div className="btn-group p-3" role="group" aria-label="Basic example">
-        <button type="button" className="btn btn-primary" onClick={handlePrev} disabled={currentQuestion === 1}><i class="fa-solid fa-arrow-left"></i> Précédent</button>
-        <button type="button" className="btn btn-primary" onClick={handleNext} disabled={currentQuestion === Object.keys(questions).length}>Suivant <i class="fa-solid fa-arrow-right"></i></button>
+        <button type="button" className="btn btn-primary" onClick={handlePrev} disabled={currentQuestion === 0}><i class="fa-solid fa-arrow-left"></i> Précédent</button>
+        <button type="button" className="btn btn-primary" onClick={handleNext} disabled={currentQuestion === (questions.length - 1)}>Suivant <i class="fa-solid fa-arrow-right"></i></button>
       </div>
-      {currentQuestion === Object.keys(questions).length && (
+      {currentQuestion === (questions.length - 1) && (
         <button onClick={handleSubmit} type="button" className="btn btn-success">
           <span className='submit-text'>Envoyer mes réponses </span>
           <i className="fa-solid fa-check"></i>

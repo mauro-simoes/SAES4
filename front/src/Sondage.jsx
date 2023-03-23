@@ -41,7 +41,6 @@ class Sondage extends React.Component {
   }
 
   render() {
-    console.log(this.state.questionsList);
     return (
       <div className='sondage-container card'>
         <div className='sondage-header card-header'>
