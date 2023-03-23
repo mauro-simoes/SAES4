@@ -4,7 +4,6 @@ import 'react-bootstrap-typeahead/css/Typeahead.css';
 import 'bootstrap/dist/css/bootstrap.css';
 
 const SlideShow = ({ questions, nbQuestion }) => {
-  console.log(nbQuestion);
   const [currentQuestion, setCurrentQuestion] = useState(1);
   const [responses, setResponses] = useState({});
   const [multiSelections, setMultiSelections] = useState([]);
@@ -28,6 +27,13 @@ const SlideShow = ({ questions, nbQuestion }) => {
     console.log(responses);
     console.log(multiSelections);
   };
+
+  // increment currentQuestion until it's not undefined
+  // while (questions[currentQuestion] === undefined) {
+  //   setCurrentQuestion(currentQuestion + 1);
+  //   console.log(currentQuestion);
+  //   console.log(questions[currentQuestion]);
+  // }
 
   const currentQuestionData = questions[currentQuestion];
   const questionText = currentQuestionData[0];
