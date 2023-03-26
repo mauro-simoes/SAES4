@@ -1,11 +1,13 @@
 services:
   api:
-    image: maurosimoes05/sae_s4:api
+    build:
+      context: "./api"
     ports:
       - "8080:8080"
 
   front:
-    image: maurosimoes05/sae_s4:front
+    build:
+      context: "./front"
     ports:
       - "3000:3000"
     depends_on:
