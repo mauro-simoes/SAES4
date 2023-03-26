@@ -17,7 +17,7 @@ export const Register = (props) => {
     const handleSubmit = async (e) => {
       e.preventDefault();
       try {
-        const response = await fetch('/authentification/creer-compte', {
+        const response = await fetch('http://localhost:8080/authentification/creer-compte', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'

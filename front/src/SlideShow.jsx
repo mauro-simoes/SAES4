@@ -50,8 +50,7 @@ const SlideShow = ({ questions, nbQuestion, cookies }) => {
     setRepData([]);
     setRepDataString([]);
     setLoading(true);
-    let urlReponse = fullPathReponse.replace('sondage','api/reponse-question/'+(currentQuestion+1))
-    urlReponse = urlReponse.substring(0, urlReponse.length - 2);
+    let urlReponse ='http://localhost:8080/api/reponse-question/'+(currentQuestion+1)
     const response = await fetch(urlReponse, {
       method: 'GET',
       headers: {

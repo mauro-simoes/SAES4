@@ -13,7 +13,7 @@ class Sondages extends React.Component {
   }
 
   componentDidMount() {
-    const url = 'api/sondage/get-all';
+    const url = 'http://localhost:8080/api/sondage/get-all';
     const token = this.state.cookies.token;
 
     fetch(url, {

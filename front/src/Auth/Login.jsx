@@ -13,7 +13,7 @@ export const Login = (props) => {
     const handleSubmit = async (e) => {
       e.preventDefault();
       try {
-        const response = await fetch('/authentification/authentifier', {
+        const response = await fetch('http://localhost:8080/authentification/authentifier', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'

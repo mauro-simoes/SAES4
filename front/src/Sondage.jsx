@@ -23,7 +23,7 @@ class Sondage extends React.Component {
   componentDidMount() {
     // fetch questions of sondage
     const fullPath = window.location.href;
-    let url = fullPath.replace('sondage','api/sondage/get-question-of-sondage')
+    let url = 'http://localhost:8080/api/sondage/get-question-of-sondage/' + fullPath.split("/")[fullPath.split("/").length-1]
     const token = this.state.token;
 
     fetch(url, {
