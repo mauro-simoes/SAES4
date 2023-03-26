@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Typeahead } from 'react-bootstrap-typeahead';
 import 'react-bootstrap-typeahead/css/Typeahead.css';
 import 'bootstrap/dist/css/bootstrap.css';
 
-const SlideShow = ({ questions, nbQuestion }) => {
-  console.log("questions", questions);
+const SlideShow = ({ questions, nbQuestion, cookies }) => {
+  console.log(questions)
+  const token = cookies.token;
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [responses, setResponses] = useState({});
   const [multiSelections, setMultiSelections] = useState([]);
@@ -33,14 +34,57 @@ const SlideShow = ({ questions, nbQuestion }) => {
   const currentQuestionId = currentQuestionData.id;
   const currentQuestionText = currentQuestionData.contenu;
   const currentQuestionType = currentQuestionData.type;
+  const currentQuestionNbReponseMin = currentQuestionData.nbReponseMin;
+  const currentQuestionNbReponseMax = currentQuestionData.nbReponseMax;
 
-  const options = [
-    { nom: 'Alabama' },
-    { nom: 'Alaska' },
-    { nom: 'Arizona' },
-    { nom: 'Arkansas' },
-    { nom: 'California' }]
-    ;
+  
+
+  const fullPathReponse = window.location.href;
+  
+  const [repData, setRepData] = useState([]);
+  const [repDataString, setRepDataString] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  
+  async function fetchReponse() {
+    setRepData([]);
+    setRepDataString([]);
+    setLoading(true);
+    let urlReponse = fullPathReponse.replace('sondage','api/reponse-question/'+(currentQuestion+1))
+    urlReponse = urlReponse.substring(0, urlReponse.length - 2);
+    const response = await fetch(urlReponse, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      }
+    });
+    const data = await response.json();
+    setRepData(data);
+    setLoading(false);
+    setError(null);
+    if (response.status !== 200) {
+      setError(data);
+      console.log(error);
+    }
+  }
+
+  useEffect(() => {
+    if (currentQuestionType === 'LIST' || currentQuestionType === "CHECKBOX") {
+      fetchReponse();
+    }
+  }, [currentQuestion]);
+
+  useEffect(() => {
+    if ((currentQuestionType === 'LIST' || currentQuestionType === "CHECKBOX") && repData.length > 0) {
+      const tmp = [];
+      repData.map((rep) => {
+        tmp.push(rep.id + ' - ' + rep.reponse);
+      });
+      setRepDataString(tmp);
+    }
+  }, [repData]);
+  
 
   function renderReponses( index){
     if (currentQuestionType === "TEXTE") {
@@ -53,11 +97,40 @@ const SlideShow = ({ questions, nbQuestion }) => {
           id={`typeahead-${index}`}
           multiple
           onChange={(selected) => handleInputChange(index, selected)}
-          options={options}
+          options= {repDataString}
           placeholder="Choisissez une ou plusieurs réponses..."
           selected={multiSelections[index]}
           labelKey="nom"
         />
+      );
+    } else if (currentQuestionType === "CHECKBOX") {
+      return (
+        <div className='checkbox-container'>
+          {
+            repData.map((rep) => {
+              return (
+                <div className='form-check'>
+                  {
+                    (currentQuestionNbReponseMin === currentQuestionNbReponseMax) ?
+                    (
+                      <>
+                        <input className='form-check-input' type="radio" id={rep.id} name={currentQuestion} value={rep.reponse} onChange={(event) => handleInputChange(index, event.target.value)} />
+                        <label className='form-check-label' htmlFor={rep.id}>{rep.reponse}</label>
+                      </>
+                    )
+                    :
+                    (
+                      <>
+                        <input className='form-check-input' type="checkbox" id={rep.id} name={currentQuestion} value={rep.reponse} onChange={(event) => handleInputChange(index, event.target.value)} />
+                        <label className='form-check-label' htmlFor={rep.id}>{rep.reponse}</label>
+                      </>
+                    )
+                  }
+                </div>
+              );
+            })
+          }
+        </div>
       );
     }
   }
