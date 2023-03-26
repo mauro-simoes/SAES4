@@ -36,23 +36,6 @@ class Sondage extends React.Component {
     .then(response => response.json())
     .then(data => this.setState({ questionsList: data }))
     .catch(error => console.error(error));
-
-    // fetch reponses of sondage
-    const fullPathReponse = window.location.href;
-    let urlReponse = fullPathReponse.replace('sondage','api/reponse-question/2')
-    urlReponse = urlReponse.substring(0, urlReponse.length - 2);
-    console.log("urlReponse", urlReponse);
-    fetch(urlReponse, {
-      method: 'GET',
-      headers: {
-        'Authorization': `Bearer ${token}`,
-        'Content-Type': 'application/json'
-      }
-    })
-    .then(response => response.json())
-    .then(data => console.log("reponse", data))
-    .catch(error => console.error(error));
-
   }
 
   render() {
@@ -67,7 +50,7 @@ class Sondage extends React.Component {
 
           this.state.questionsList.length === 0
             ? <div>Chargement...</div>
-            : <SlideShow questions={this.state.questionsList} nbQuestion={this.state.nbQuestion} />
+            : <SlideShow questions={this.state.questionsList} nbQuestion={this.state.nbQuestion} cookies={this.state.cookies} />
         }
       </div>
     );
