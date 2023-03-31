@@ -1,7 +1,11 @@
 package com.apisae.api.services.sondage;
 
 
+import com.apisae.api.models.reponse.Reponse;
+import com.apisae.api.models.sondage.Question;
+import com.apisae.api.models.sondage.Sondage;
 import com.apisae.api.models.sondage.SondageDTO;
+import lombok.NonNull;
 
 import java.util.List;
 import java.util.Map;
@@ -17,4 +21,8 @@ public interface IServiceSondage{
     boolean utilisateurARepondu(Long idSondage);
 
     Integer nbQuestionSondage(Long idSondage);
+
+    public Sondage findByID(@NonNull Long idSondage);
+
+    public Reponse repondre(@NonNull Question question, @NonNull String reponse);
 }

@@ -1,5 +1,8 @@
 package com.apisae.api.services.user;
 
+import com.apisae.api.models.reponse.Reponse;
+import com.apisae.api.models.reponsepossible.ReponsePossible;
+import com.apisae.api.models.user.User;
 import com.apisae.api.models.user.UserDTO;
 import com.apisae.api.repositories.user.UserRepository;
 import lombok.NonNull;
@@ -22,11 +25,16 @@ public class ServiceUser implements IServiceUser {
                 .orElseThrow(() -> new UsernameNotFoundException(String.format("Utilisateur avec le mail %s n'a pas été trouvé",email)));
     }
 
-    public UserDTO getUser(){
+    public UserDTO getUserDTO(){
         String email = UserOutils.getCurrentUserEmail();
         return userRepository.findUserByEmailIs(email)
                 .map(userDTOMapper)
                 .orElseThrow(() -> new UsernameNotFoundException(String.format("Utilisateur avec le mail %s n'a pas été trouvé",email)));
     }
 
+    public User getCurrentUser(){
+        String email = UserOutils.getCurrentUserEmail();
+        return userRepository.findUserByEmailIs(email)
+                .orElseThrow(() -> new UsernameNotFoundException(String.format("Utilisateur avec le mail %s n'a pas été trouvé",email)));
+    }
 }

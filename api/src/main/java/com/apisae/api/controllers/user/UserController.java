@@ -34,7 +34,7 @@ public class UserController {
     public ResponseEntity<UserDTO> getUser(){
         UserDTO userDTO;
         try{
-            userDTO = serviceUser.getUser();
+            userDTO = serviceUser.getUserDTO();
         }catch (Exception e){
             return ResponseEntity.notFound().build();
         }

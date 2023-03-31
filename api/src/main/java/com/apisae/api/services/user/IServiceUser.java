@@ -1,5 +1,6 @@
 package com.apisae.api.services.user;
 
+import com.apisae.api.models.user.User;
 import com.apisae.api.models.user.UserDTO;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -25,5 +26,7 @@ public interface IServiceUser extends UserDetailsService {
      *
      * @return les informations de l'utilisateur sans les donnees sensibles
      */
-    UserDTO getUser();
+    UserDTO getUserDTO();
+
+    User getCurrentUser();
 }

@@ -1,8 +1,15 @@
 package com.apisae.api.controllers.sondage;
 
+import com.apisae.api.enums.TypeReponseQuestion;
+import com.apisae.api.models.authentification.RequeteCreationCompte;
 import com.apisae.api.models.error.ErrorBody;
+import com.apisae.api.models.sondage.Question;
+import com.apisae.api.models.sondage.ReponseBody;
+import com.apisae.api.models.sondage.Sondage;
 import com.apisae.api.models.sondage.SondageDTO;
+import com.apisae.api.repositories.sondage.QuestionRepository;
 import com.apisae.api.services.sondage.IServiceSondage;
+import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,6 +25,9 @@ import java.util.Map;
 public class SondageController {
 
     private final IServiceSondage serviceSondage;
+
+    private final QuestionRepository questionRepository;
+
 
     @GetMapping(path ="/get-all")
     public List<Map<String,Object>> getAllSondage(){
@@ -46,6 +56,40 @@ public class SondageController {
             return ResponseEntity.internalServerError().body(new ErrorBody(e.getMessage()));
         }
         return ResponseEntity.ok(questionsReponses);
+    }
+
+    @PostMapping(path = "/addQuestion")
+    public ResponseEntity<Object> addQuestion(@NonNull @RequestBody Map<String,String> questionBody){
+        Question question = new Question();
+        question.setTexte(questionBody.get("texte"));
+        question.setNbResponseMax(Integer.valueOf(questionBody.get("nbReponseMax")));
+        question.setNbResponseMin(Integer.valueOf(questionBody.get("nbReponseMin")));
+        question.setTypeReponse(Enum.valueOf(TypeReponseQuestion.class,questionBody.get("typeReponse")));
+
+        Sondage sondage = serviceSondage.findByID(Long.valueOf(questionBody.get("idSondage")));
+
+        question.setSondage(sondage);
+
+        return ResponseEntity.ok().body(question);
+    }
+
+    @PostMapping(path = "/repondre")
+    public ResponseEntity<Object> repondre(@NonNull @RequestBody ReponseBody reponseBody){
+        Sondage sondage = serviceSondage.findByID(reponseBody.getIdSondage());
+
+        if (reponseBody.getReponses().size() != sondage.getQuestions().size()){
+            return ResponseEntity.badRequest().body("Le sondage n'a pas été complété");
+        }
+
+        for (String idQuestion : reponseBody.getReponses().keySet()){
+            System.out.println("\n ****************** question ID " + idQuestion +"\n");
+            Question question = questionRepository.findById(Long.valueOf(idQuestion))
+                    .orElseThrow(() -> new RuntimeException("Invalid question " +  idQuestion));
+            for (String reponse : reponseBody.getReponses().get(idQuestion))
+                serviceSondage.repondre(question,reponse);
+        }
+
+        return ResponseEntity.ok().build();
     }
 
 }

@@ -1,13 +1,21 @@
 package com.apisae.api.services.sondage;
 
+import com.apisae.api.enums.TypeReponseQuestion;
 import com.apisae.api.models.reponse.Reponse;
+import com.apisae.api.models.reponsepossible.ReponsePossible;
+import com.apisae.api.models.reponsepossible.ReponseTexte;
 import com.apisae.api.models.sondage.Question;
 import com.apisae.api.models.sondage.Sondage;
 import com.apisae.api.models.sondage.SondageDTO;
 import com.apisae.api.repositories.reponse.ReponseRepository;
 import com.apisae.api.repositories.sondage.SondageRepository;
+import com.apisae.api.repositories.user.UserRepository;
+import com.apisae.api.services.reponsepossible.ServiceReponsePossible;
+import com.apisae.api.services.user.IServiceUser;
 import com.apisae.api.services.user.UserOutils;
+import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -16,11 +24,13 @@ import java.util.*;
 @Service
 public class ServiceSondage implements IServiceSondage {
 
+    private final IServiceUser serviceUser;
     private final SondageRepository sondageRepository;
     private final SondageDTOMapper sondageDTOMapper;
 
     private final ReponseRepository reponseRepository;
 
+    private final ServiceReponsePossible serviceReponsePossible;
     public List<Map<String,Object>> findAllSondage() {
         List<SondageDTO> sondage = sondageRepository.findAll()
                 .stream()
@@ -74,7 +84,7 @@ public class ServiceSondage implements IServiceSondage {
         if (!utilisateurARepondu(idSondage)) return questionReponse;
 
         for (Question question : sondage.getQuestions()){
-            List<Reponse> reponseList = reponseRepository.findAllByMailUtilisateurAndQuestionId(email, question.getId())
+            List<Reponse> reponseList = reponseRepository.findAllByUtilisateur_EmailAndReponse_Question_Id(email, question.getId())
                     .orElse(new ArrayList<>());
             List<String> valeurReponseList = new ArrayList<>();
             for (Reponse reponse : reponseList)
@@ -93,7 +103,7 @@ public class ServiceSondage implements IServiceSondage {
         String email = UserOutils.getCurrentUserEmail();
 
         for (Question question : sondage.getQuestions()){
-            List<Reponse> reponseList = reponseRepository.findAllByMailUtilisateurAndQuestionId(email, question.getId())
+            List<Reponse> reponseList = reponseRepository.findAllByUtilisateur_EmailAndReponse_Question_Id(email, question.getId())
                     .orElse(new ArrayList<>());
             if (reponseList.size() < question.getNbResponseMin() || reponseList.size() > question.getNbResponseMax()) aRepondu = false;
         }
@@ -105,6 +115,30 @@ public class ServiceSondage implements IServiceSondage {
     public Integer nbQuestionSondage(Long idSondage) {
         Sondage sondage = sondageRepository.findById(idSondage).orElseThrow(() -> new RuntimeException(String.format("Le sondage avec l'id %d n'a pas été trouvé",idSondage)));
         return sondage.getQuestions().size();
+    }
+
+    public Sondage findByID(@NonNull Long idSondage){
+        return sondageRepository.findById(idSondage)
+                .orElseThrow(() -> new RuntimeException(String.format("Le sondage avec l'id %d n'a pas été trouvé",idSondage)));
+    }
+
+
+    public Reponse repondre(@NonNull Question question, @NonNull String reponse){
+        Reponse reponseUtilisateur = new Reponse();
+        reponseUtilisateur.setUtilisateur(serviceUser.getCurrentUser());
+
+        if (question.getTypeReponse().equals(TypeReponseQuestion.TEXTE)){
+            ReponseTexte inputUtilisateur = new ReponseTexte();
+            inputUtilisateur.setTexte(reponse);
+            inputUtilisateur.setQuestion(question);
+
+            reponseUtilisateur.setReponse(serviceReponsePossible.save(inputUtilisateur));
+        }else{
+            ReponsePossible resp = serviceReponsePossible.findByID(Long.valueOf(reponse));
+            reponseUtilisateur.setReponse(resp);
+        }
+
+        return reponseRepository.save(reponseUtilisateur);
     }
 
 
