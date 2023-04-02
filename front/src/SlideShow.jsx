@@ -3,8 +3,7 @@ import { Typeahead } from 'react-bootstrap-typeahead';
 import 'react-bootstrap-typeahead/css/Typeahead.css';
 import 'bootstrap/dist/css/bootstrap.css';
 
-const SlideShow = ({ questions, nbQuestion, cookies }) => {
-  console.log(questions)
+const SlideShow = ({ questions, nbQuestion, cookies, idSondage }) => {
   const token = cookies.token;
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [responses, setResponses] = useState({});
@@ -19,15 +18,22 @@ const SlideShow = ({ questions, nbQuestion, cookies }) => {
   };
 
   const handleInputChange = (index, value) => {
+    if (currentQuestionType === 'LIST') {
+      let newValues = [];
+      value.map((item) => newValues.push(String(item.id)));
+      value = newValues;
+    }
     const newResponses = { ...responses };
     newResponses[index] = value;
     setResponses(newResponses);
   };
 
   const handleSubmit = () => {
-    // Soumettre les réponses
-    console.log(responses);
-    console.log(multiSelections);
+    const newObj = {
+      idSondage: parseInt(idSondage),
+      reponses: responses,
+    };
+    console.log(newObj);
   };
 
   const currentQuestionData = questions[currentQuestion];
@@ -36,8 +42,6 @@ const SlideShow = ({ questions, nbQuestion, cookies }) => {
   const currentQuestionType = currentQuestionData.type;
   const currentQuestionNbReponseMin = currentQuestionData.nbReponseMin;
   const currentQuestionNbReponseMax = currentQuestionData.nbReponseMax;
-
-  
 
   const fullPathReponse = window.location.href;
   
@@ -76,11 +80,10 @@ const SlideShow = ({ questions, nbQuestion, cookies }) => {
 
   useEffect(() => {
     if ((currentQuestionType === 'LIST' || currentQuestionType === "CHECKBOX") && repData.length > 0) {
-      const tmp = [];
-      repData.map((rep) => {
-        tmp.push(rep.id + ' - ' + rep.reponse);
-      });
-      setRepDataString(tmp);
+      repData.map((item) => ({
+        id : item.id,
+        reponse : item.reponse
+      }));
     }
   }, [repData]);
   
@@ -96,10 +99,11 @@ const SlideShow = ({ questions, nbQuestion, cookies }) => {
           id={`typeahead-${index}`}
           multiple
           onChange={(selected) => handleInputChange(index, selected)}
-          options= {repDataString}
+          options= {repData}
           placeholder="Choisissez une ou plusieurs réponses..."
           selected={multiSelections[index]}
-          labelKey="nom"
+          labelKey="reponse"
+          filterBy={['reponse']}
         />
       );
     } else if (currentQuestionType === "CHECKBOX") {
@@ -113,14 +117,14 @@ const SlideShow = ({ questions, nbQuestion, cookies }) => {
                     (currentQuestionNbReponseMin === currentQuestionNbReponseMax) ?
                     (
                       <>
-                        <input className='form-check-input' type="radio" id={rep.id} name={currentQuestion} value={rep.reponse} onChange={(event) => handleInputChange(index, event.target.value)} />
+                        <input className='form-check-input' type="radio" id={rep.id} name={currentQuestion} value={rep.id} onChange={(event) => handleInputChange(index, event.target.value)} />
                         <label className='form-check-label' htmlFor={rep.id}>{rep.reponse}</label>
                       </>
                     )
                     :
                     (
                       <>
-                        <input className='form-check-input' type="checkbox" id={rep.id} name={currentQuestion} value={rep.reponse} onChange={(event) => handleInputChange(index, event.target.value)} />
+                        <input className='form-check-input' type="checkbox" id={rep.id} name={currentQuestion} value={rep.id} onChange={(event) => handleInputChange(index, event.target.value)} />
                         <label className='form-check-label' htmlFor={rep.id}>{rep.reponse}</label>
                       </>
                     )
@@ -137,7 +141,7 @@ const SlideShow = ({ questions, nbQuestion, cookies }) => {
   return (
     <div className='slide-show'>
       <div className="progress" role="progressbar" aria-label="Example with label" aria-valuenow={currentQuestion} aria-valuemin="1" aria-valuemax={nbQuestion}>
-        <div className="progress-bar" style={{ width: `${(currentQuestion + 1 / nbQuestion) * 100}%` }}><span>{currentQuestion + 1} / {nbQuestion}</span></div>
+        <div className="progress-bar" style={{ width: `${(currentQuestion / nbQuestion) * 100}%` }}><span>{currentQuestion + 1} / {nbQuestion}</span></div>
       </div>
       <h2>{currentQuestionText}</h2>
       <div className='reponses-container'>

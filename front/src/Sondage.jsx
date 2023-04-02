@@ -50,7 +50,7 @@ class Sondage extends React.Component {
 
           this.state.questionsList.length === 0
             ? <div>Chargement...</div>
-            : <SlideShow questions={this.state.questionsList} nbQuestion={this.state.nbQuestion} cookies={this.state.cookies} />
+            : <SlideShow questions={this.state.questionsList} nbQuestion={this.state.nbQuestion} cookies={this.state.cookies} idSondage={this.state.id} />
         }
       </div>
     );
