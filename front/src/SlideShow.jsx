@@ -18,22 +18,44 @@ const SlideShow = ({ questions, nbQuestion, cookies, idSondage }) => {
   };
 
   const handleInputChange = (index, value) => {
+    console.log(index, value, currentQuestionId)
     if (currentQuestionType === 'LIST') {
       let newValues = [];
       value.map((item) => newValues.push(String(item.id)));
       value = newValues;
     }
+    else {
+      value = [String(value)];
+    }
     const newResponses = { ...responses };
-    newResponses[index] = value;
+    newResponses[String(index)] = value;
     setResponses(newResponses);
   };
 
   const handleSubmit = () => {
-    const newObj = {
+    const dataReponse = {
       idSondage: parseInt(idSondage),
       reponses: responses,
     };
-    console.log(newObj);
+    console.log(dataReponse);
+    // fetch post request with dataReponse as body in JSON format to http://localhost:8080/api/repondre
+    fetch('http://localhost:8080/api/sondage/repondre', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization' : `Bearer ${token}`
+      },
+      body: JSON.stringify(dataReponse),
+      })
+      .then((response) => response.json())
+      .then((data) => {
+        // redirect to sondages
+        window.location.href = 'http://localhost:3000/sondages';
+      }).then((error) => {
+        console.log(error);
+      }).catch((error) => {
+        console.log(error);
+      });
   };
 
   const currentQuestionData = questions[currentQuestion];
@@ -86,22 +108,21 @@ const SlideShow = ({ questions, nbQuestion, cookies, idSondage }) => {
       }));
     }
   }, [repData]);
-  
 
   function renderReponses( index){
     if (currentQuestionType === "TEXTE") {
       return (
-        <input className='input-default' type="text" onChange={(event) => handleInputChange(index, event.target.value)} />
+        <input className='input-default' type="text" onChange={(event) => handleInputChange(currentQuestionId, event.target.value)} />
       );
     } else if (currentQuestionType === "LIST") {
       return (
         <Typeahead
-          id={`typeahead-${index}`}
+          id={`typeahead-${currentQuestionId}`}
           multiple
-          onChange={(selected) => handleInputChange(index, selected)}
+          onChange={(selected) => handleInputChange(currentQuestionId, selected)}
           options= {repData}
           placeholder="Choisissez une ou plusieurs réponses..."
-          selected={multiSelections[index]}
+          selected={multiSelections[currentQuestionId]}
           labelKey="reponse"
           filterBy={['reponse']}
         />
@@ -117,14 +138,14 @@ const SlideShow = ({ questions, nbQuestion, cookies, idSondage }) => {
                     (currentQuestionNbReponseMin === currentQuestionNbReponseMax) ?
                     (
                       <>
-                        <input className='form-check-input' type="radio" id={rep.id} name={currentQuestion} value={rep.id} onChange={(event) => handleInputChange(index, event.target.value)} />
+                        <input className='form-check-input' type="radio" id={rep.id} name={currentQuestion} value={rep.id} onChange={(event) => handleInputChange(currentQuestionId, event.target.value)} />
                         <label className='form-check-label' htmlFor={rep.id}>{rep.reponse}</label>
                       </>
                     )
                     :
                     (
                       <>
-                        <input className='form-check-input' type="checkbox" id={rep.id} name={currentQuestion} value={rep.id} onChange={(event) => handleInputChange(index, event.target.value)} />
+                        <input className='form-check-input' type="checkbox" id={rep.id} name={currentQuestion} value={rep.id} onChange={(event) => handleInputChange(currentQuestionId, event.target.value)} />
                         <label className='form-check-label' htmlFor={rep.id}>{rep.reponse}</label>
                       </>
                     )
