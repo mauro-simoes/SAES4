@@ -36,6 +36,10 @@ public abstract class ReponsePossible {
     @JoinColumn(name="question", nullable = false)
     private Question question;
 
+    public ReponsePossible(Question question) {
+        this.question = question;
+    }
+
     public abstract String getValue();
 
 }

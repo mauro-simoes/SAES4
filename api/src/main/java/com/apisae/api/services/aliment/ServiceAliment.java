@@ -1,6 +1,7 @@
 package com.apisae.api.services.aliment;
 
 import com.apisae.api.models.reponse.Reponse;
+import com.apisae.api.models.reponsepossible.Aliment;
 import com.apisae.api.models.reponsepossible.AlimentDTO;
 import com.apisae.api.models.reponsepossible.ReponsePossible;
 import com.apisae.api.models.sondage.Question;
@@ -42,6 +43,10 @@ public class ServiceAliment implements IServiceAliment {
             aliment_map = new LinkedHashMap<>();
         }
         return all_aliment;
+    }
+
+    public List<Aliment> getAllAliments(){
+        return alimentRepository.findAll();
     }
 
 }

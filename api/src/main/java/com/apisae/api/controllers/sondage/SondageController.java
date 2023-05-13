@@ -83,7 +83,6 @@ public class SondageController {
         }
 
         for (String idQuestion : reponseBody.getReponses().keySet()){
-            System.out.println("\n ****************** question ID " + idQuestion +"\n");
             Question question = questionRepository.findById(Long.valueOf(idQuestion))
                     .orElseThrow(() -> new RuntimeException("Invalid question " +  idQuestion));
             for (String reponse : reponseBody.getReponses().get(idQuestion))
