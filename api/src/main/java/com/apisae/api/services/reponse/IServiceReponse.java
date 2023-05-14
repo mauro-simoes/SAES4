@@ -10,4 +10,8 @@ public interface IServiceReponse {
 
     Map<String,Long> top10grpAliment();
 
+    Map<String, Long> getAllReponses(Long questionID);
+
+    Map<String, Long> getTop10Reponses(Long questionID);
+
 }

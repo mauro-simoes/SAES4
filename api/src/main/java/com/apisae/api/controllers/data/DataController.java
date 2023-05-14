@@ -41,5 +41,27 @@ public class DataController {
         return ResponseEntity.ok(top);
     }
 
+    @GetMapping(path = "/all-reponses/{questionId}")
+    public ResponseEntity<Object> getAllReponsesQuestion(@PathVariable Long questionId){
+        Map<String,Long> reponses;
+        try{
+            reponses =  serviceReponse.getAllReponses(questionId);
+        }catch (Exception e){
+            return ResponseEntity.internalServerError().body(new ErrorBody(e.getMessage()));
+        }
+        return ResponseEntity.ok().body(reponses);
+    }
+
+    @GetMapping(path = "/top-ten-reponses/{questionId}")
+    public ResponseEntity<Object> getTop10Reponses(@PathVariable Long questionId){
+        Map<String,Long> reponses;
+        try{
+            reponses =  serviceReponse.getTop10Reponses(questionId);
+        }catch (Exception e){
+            return ResponseEntity.internalServerError().body(new ErrorBody(e.getMessage()));
+        }
+        return ResponseEntity.ok().body(reponses);
+    }
+
 
 }

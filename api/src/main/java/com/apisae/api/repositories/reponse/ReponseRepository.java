@@ -4,6 +4,7 @@ import com.apisae.api.models.reponse.Reponse;
 import com.apisae.api.models.reponse.ReponseId;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -31,5 +32,11 @@ public interface ReponseRepository extends JpaRepository<Reponse, ReponseId> {
             "ORDER BY counter DESC\n" +
             "LIMIT 10;")
     List<Object[]> findTop10GrpAliment();
+
+    @Query(nativeQuery = true,value="SELECT r.reponse AS id, COUNT(r.reponse) AS counter FROM reponse r INNER JOIN reponse_possible rp ON r.reponse = rp.id WHERE rp.question = :questionID GROUP BY r.reponse ORDER BY counter DESC;")
+    List<Object[]> findAllReponsesWithCount(@Param("questionID") Long questionID);
+
+    @Query(nativeQuery = true,value="SELECT r.reponse AS id, COUNT(r.reponse) AS counter FROM reponse r INNER JOIN reponse_possible rp ON r.reponse = rp.id WHERE rp.question = :questionID GROUP BY r.reponse ORDER BY counter DESC LIMIT 10;")
+    List<Object[]> findTop10ReponsesWithCount(@Param("questionID") Long questionID);
 
 }
