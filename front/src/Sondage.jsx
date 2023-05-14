@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import withRouter from './withRouter';
 import SlideShow from './SlideShow';
+import { Link } from "react-router-dom";
 
 class Sondage extends React.Component {
   constructor(props) {
@@ -40,19 +41,21 @@ class Sondage extends React.Component {
 
   render() {
     return (
+      <>
       <div className='sondage-container card'>
-        <div className='sondage-header card-header'>
-          <h1>{this.state.nom}</h1>
-          <h2>{this.state.nbQuestion} Questions</h2>
-        </div>
-        {
-          this.state.aRepondu ? <span> Vous avez déja répondu à ce sondage </span> : 
+        <Link className='back-to-sondages' to={`/sondages`}>
+          <button className='btn btn-primary'><i class="fa-solid fa-circle-chevron-left"></i> Vos Sondages </button>
+        </Link>
+          <div className='sondage-header card-header'>
+            <h1>{this.state.nom}</h1>
+            <h2>{this.state.nbQuestion} Questions</h2>
+          </div>
+          {this.state.aRepondu ? <span> Vous avez déja répondu à ce sondage </span> :
 
-          this.state.questionsList.length === 0
-            ? <div>Chargement...</div>
-            : <SlideShow questions={this.state.questionsList} nbQuestion={this.state.nbQuestion} cookies={this.state.cookies} idSondage={this.state.id} />
-        }
-      </div>
+            this.state.questionsList.length === 0
+              ? <div>Chargement...</div>
+              : <SlideShow questions={this.state.questionsList} nbQuestion={this.state.nbQuestion} cookies={this.state.cookies} idSondage={this.state.id} />}
+        </div></>
     );
 }
   

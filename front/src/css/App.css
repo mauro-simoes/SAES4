@@ -97,8 +97,8 @@ footer{
   border-radius: 30px;
 }
 .sondage-div{
-  color: var(--font-color-red);
-  background-color: var(--red);
+  color: #F7D0FF;
+  background-color: #00AFB9;
 
   display: flex;
   flex-direction: column;
@@ -110,14 +110,40 @@ footer{
   padding: 10px;
   margin: 10px;
 
-  border: 1px solid var(--border-red);
-  box-shadow: 0px 0px 7px 2px var(--box-shadow-red);
+  border: 1px solid var(--border-blue);
+  box-shadow: 0px 0px 7px 2px var(--box-shadow-blue );
   border-radius: 10px;
 
   transition: all 0.2s;
 }
-.sondage-div:hover{
+.sondage-link:hover{
   transform: scale(1.05);
+}
+.sondage-link{
+  position: relative;
+  color: #00AFB9;
+  text-decoration: none!important;
+  transition: all 0.2s;
+}
+.sondage-div a {
+  text-decoration: none!important;
+}
+.disabled-link:hover{
+  transform: none!important;
+}
+.info-repondu{
+  color: #7439db;
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  font-size: x-large;
+  transition: all 0.1s;
+}
+.repondu-false{
+  color: #dec118;
+}
+.repondu-true{
+  color: #53e36b;
 }
 .sondage-div-name{
   font-size: 24px;
@@ -126,6 +152,21 @@ footer{
 .sondage-div-nb-questions{
   font-size: 20px;
   font-weight: 600;
+}
+.question-container{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+.question-input-container{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+.question-text{
+  width: 100%;
 }
 /* login and Register */
 
@@ -188,10 +229,7 @@ footer{
   border-radius: 10px;
   padding: 5px;
 }
-.sondage-link{
-  text-decoration: none;
-  color: var(--font-color-red);
-}
+
 
 .sondage-container{
   background-color: #7439db!important;
@@ -235,4 +273,21 @@ footer{
   color: #0077cc;
   text-decoration: none;
   font-weight: bold;
+}
+.sondage-container{
+  position: relative;
+  width: 80%;
+}
+.back-to-sondages{
+  position: absolute;
+  top: 20px;
+  left: 20px;
+}
+
+.submitted-response-div{
+  margin: 20px;
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
