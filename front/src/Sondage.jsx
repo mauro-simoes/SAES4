@@ -62,7 +62,7 @@ class Sondage extends React.Component {
               this.state.questionsList.length === 0
                 ? <div>Chargement...</div>
                 : <SlideShow questions={this.state.questionsList} nbQuestion={this.state.nbQuestion} cookies={this.state.cookies} idSondage={this.state.id} />
-                : <Resultats questions={this.state.questionsList} nbQuestion={this.state.nbQuestion} cookies={this.state.cookies} idSondage={this.state.id} />
+                : <Resultats questions={this.state.questionsList} cookies={this.state.cookies} />
         }
         <div className='switch-display-mode'>
             {this.state.displayMode === 'response' ? 
