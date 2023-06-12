@@ -43,8 +43,6 @@ function App() {
         <h1>
           Vos sondages
         </h1>
-        {/* <User name={'alban'}
-        /> */}
         <button className='btn btn-danger' onClick={() =>{ cookies.remove('token'); window.location.href = '/'; }}> Se déconnecter </button>
       </header>
         <BrowserRouter>

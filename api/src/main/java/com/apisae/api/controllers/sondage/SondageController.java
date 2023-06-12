@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.Map;
 
 
-@CrossOrigin("http://localhost:3000")
+@CrossOrigin(origins = {"http://localhost:3000", "http://localhost:19006"})
 @RequestMapping(path = "/api/sondage")
 @RestController
 @RequiredArgsConstructor
