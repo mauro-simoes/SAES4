@@ -3,8 +3,8 @@ spring:
     init:
       mode: embedded
   datasource:
-    url: jdbc:mysql://db4free.net:3306/saes4_database
-    username: saes4_user
+    url: jdbc:mysql://db4free.net:3306/saes4_database_2
+    username: saes4_user2
     password: saes4saes
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:

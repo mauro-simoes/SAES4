@@ -17,7 +17,7 @@ import java.util.List;
 
 
 
-@CrossOrigin(origins = {"http://localhost:3000", "http://localhost:19006"})
+@CrossOrigin(origins = {"http://localhost:3000", "http://localhost:19000"})
 @RequestMapping(path = "/api/reponse-question")
 @RestController
 @RequiredArgsConstructor

@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
  * @author Mauro Simoes
  */
 
-@CrossOrigin(origins = {"http://localhost:3000", "http://localhost:19006"})
+@CrossOrigin(origins = {"http://localhost:3000", "http://localhost:19000"})
 @RequiredArgsConstructor
 @RestController
 @RequestMapping(path = "/authentification")

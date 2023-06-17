@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 
-@CrossOrigin(origins = {"http://localhost:3000", "http://localhost:19006"})
+@CrossOrigin(origins = {"http://localhost:3000", "http://localhost:19000"})
 @RequestMapping(path = "/api/data")
 @RestController
 @RequiredArgsConstructor
