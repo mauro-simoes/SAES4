@@ -79,12 +79,13 @@ public class SondageController {
         Sondage sondage = serviceSondage.findByID(reponseBody.getIdSondage());
 
         if (reponseBody.getReponses().size() != sondage.getQuestions().size()){
-            return ResponseEntity.badRequest().body("Le sondage n'a pas été complété");
+            return ResponseEntity.badRequest().body(new ErrorBody("Le sondage n'a pas été complété"));
         }
 
         for (String idQuestion : reponseBody.getReponses().keySet()){
-            Question question = questionRepository.findById(Long.valueOf(idQuestion))
-                    .orElseThrow(() -> new RuntimeException("Invalid question " +  idQuestion));
+            Question question = questionRepository.findById(Long.valueOf(idQuestion)).orElse(null);
+            if (question == null)
+                return ResponseEntity.badRequest().body(new ErrorBody("Invalid question " +  idQuestion));
             for (String reponse : reponseBody.getReponses().get(idQuestion))
                 serviceSondage.repondre(question,reponse);
         }
