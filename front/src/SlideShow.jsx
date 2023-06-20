@@ -16,16 +16,19 @@ const SlideShow = ({ questions, nbQuestion, cookies, idSondage }) => {
 
   const handleNext = () => {
     console.log(currentQuestionData);
+
     // check if nbReponseMinSubmitted <= nbReponseMin && nbReponseMaxSubmitted <= nbReponseMax else block next
-    if (multiReponse[currentQuestionId] && multiReponse[currentQuestionId].length >= currentQuestionNbReponseMin && multiReponse[currentQuestionId].length <= currentQuestionNbReponseMax) {
-      setCurrentQuestion(currentQuestion + 1);
+    if (currentQuestionData.type === 'LIST' || currentQuestionData.type === 'CHECKBOX'){
+      if (multiReponse[currentQuestionId] && multiReponse[currentQuestionId].length >= currentQuestionNbReponseMin && multiReponse[currentQuestionId].length <= currentQuestionNbReponseMax) {
+        setCurrentQuestion(currentQuestion + 1);
+      }
+      else {
+        let text = `Vous devez choisir entre ${currentQuestionNbReponseMin} et ${currentQuestionNbReponseMax} réponses.`;
+        if (currentQuestionNbReponseMin === currentQuestionNbReponseMax) text = `Vous devez choisir+ ${currentQuestionNbReponseMin} réponses.`;
+        alert(text);
+      }
     }
-    else {
-      let text = `Vous devez choisir entre ${currentQuestionNbReponseMin} et ${currentQuestionNbReponseMax} réponses.`;
-      if (currentQuestionNbReponseMin === currentQuestionNbReponseMax) text = `Vous devez choisir
-      + ${currentQuestionNbReponseMin} réponses.`;
-      alert(text);
-    }
+    else setCurrentQuestion(currentQuestion + 1);
   };
 
   const handleInputChange = (index, value) => {
