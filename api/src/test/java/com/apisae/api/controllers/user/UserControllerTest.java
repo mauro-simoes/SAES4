@@ -29,7 +29,7 @@ class UserControllerTest {
     void getUser_ShouldReturnNotFoundWhenUserDoesntExist() {
         ResponseEntity<UserDTO> expected = ResponseEntity.notFound().build();
 
-        Mockito.doThrow(new RuntimeException()).when(serviceUser).getUser();
+        Mockito.doThrow(new RuntimeException()).when(serviceUser).getUserDTO();
 
         ResponseEntity<UserDTO> actual = userController.getUser();
 
@@ -49,7 +49,7 @@ class UserControllerTest {
 
         ResponseEntity<UserDTO> expected = ResponseEntity.ok().body(userDTO);
 
-        Mockito.doReturn(userDTO).when(serviceUser).getUser();
+        Mockito.doReturn(userDTO).when(serviceUser).getUserDTO();
 
         ResponseEntity<UserDTO> actual = userController.getUser();
 

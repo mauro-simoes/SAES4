@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@CrossOrigin("http://localhost:3000")
+@CrossOrigin(origins = {"http://localhost:3000", "http://localhost:19000"})
 @RestController
 @RequestMapping(path = "/user")
 @RequiredArgsConstructor
@@ -34,7 +34,7 @@ public class UserController {
     public ResponseEntity<UserDTO> getUser(){
         UserDTO userDTO;
         try{
-            userDTO = serviceUser.getUser();
+            userDTO = serviceUser.getUserDTO();
         }catch (Exception e){
             return ResponseEntity.notFound().build();
         }

@@ -1,6 +1,8 @@
 import './css/colors.css';
+import 'bootstrap/dist/css/bootstrap.css';
 import './css/App.css';
 import './index.css';
+
 
 import Register from './Auth/Register';
 import Login from './Auth/Login';
@@ -41,9 +43,7 @@ function App() {
         <h1>
           Vos sondages
         </h1>
-        {/* <User name={'alban'}
-        /> */}
-        <button onClick={() =>{ cookies.remove('token'); window.location.href = '/'; }}> Se déconnecter </button>
+        <button className='btn btn-danger' onClick={() =>{ cookies.remove('token'); window.location.href = '/'; }}> Se déconnecter </button>
       </header>
         <BrowserRouter>
           <Routes>

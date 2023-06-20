@@ -85,7 +85,7 @@ class ServiceUserTest {
             Mockito.doReturn(utilisateur).when(authentication).getPrincipal();
             Mockito.doReturn(Optional.empty()).when(userRepository).findUserByEmailIs("test@saes4.com");
 
-            assertThrows(UsernameNotFoundException.class,() -> serviceUser.getUser());
+            assertThrows(UsernameNotFoundException.class,() -> serviceUser.getUserDTO());
         }
 
 
@@ -111,7 +111,7 @@ class ServiceUserTest {
             Mockito.doReturn(Optional.of(utilisateur)).when(userRepository).findUserByEmailIs("test@saes4.com");
             Mockito.doReturn(expected).when(userDTOMapper).apply(Mockito.eq(utilisateur));
 
-            UserDTO actual = serviceUser.getUser();
+            UserDTO actual = serviceUser.getUserDTO();
 
             assertEquals(expected,actual);
         }

@@ -1,16 +1,10 @@
 package com.apisae.api.models.reponsepossible;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import com.apisae.api.models.sondage.Question;
+import jakarta.persistence.*;
+import lombok.*;
 
-@Getter
-@Setter
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
@@ -20,6 +14,11 @@ public class ReponseAliment extends ReponsePossible{
     @ManyToOne
     @JoinColumn(name="aliment", nullable = false)
     private Aliment aliment;
+
+    public ReponseAliment(Question question,Aliment aliment) {
+        super(question);
+        this.aliment = aliment;
+    }
 
     @Override
     public String getValue() {
