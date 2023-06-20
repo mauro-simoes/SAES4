@@ -283,6 +283,11 @@ footer{
   top: 20px;
   left: 20px;
 }
+.switch-display-mode{
+  position: absolute;
+  top: 20px;
+  right: 20px;
+}
 
 .submitted-response-div{
   margin: 20px;
@@ -290,4 +295,39 @@ footer{
   display: flex;
   justify-content: center;
   align-items: center;
+}
+/* resultats */
+
+.resultats-container{
+  width: 100%;
+
+}
+.resultats-header{
+  
+}
+.resultats-body{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  flex-direction: column;
+  width: 100%;
+}
+
+.resultats-question{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+
+  margin: 20px;
+  padding: 10px;
+  width: 90%;
+  max-height: 500px;
+}
+.chart-container{
+  width: 100%;
+  max-height: 500px;
+  display: flex;
+  justify-content: center;
 }

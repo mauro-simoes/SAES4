@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Map;
 
 
-@CrossOrigin("http://localhost:3000")
+@CrossOrigin(origins = {"http://localhost:3000", "http://localhost:19000"})
 @RequestMapping(path = "/api/data")
 @RestController
 @RequiredArgsConstructor

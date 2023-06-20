@@ -15,7 +15,17 @@ const SlideShow = ({ questions, nbQuestion, cookies, idSondage }) => {
   };
 
   const handleNext = () => {
-    setCurrentQuestion(currentQuestion + 1);
+    console.log(currentQuestionData);
+    // check if nbReponseMinSubmitted <= nbReponseMin && nbReponseMaxSubmitted <= nbReponseMax else block next
+    if (multiReponse[currentQuestionId] && multiReponse[currentQuestionId].length >= currentQuestionNbReponseMin && multiReponse[currentQuestionId].length <= currentQuestionNbReponseMax) {
+      setCurrentQuestion(currentQuestion + 1);
+    }
+    else {
+      let text = `Vous devez choisir entre ${currentQuestionNbReponseMin} et ${currentQuestionNbReponseMax} réponses.`;
+      if (currentQuestionNbReponseMin === currentQuestionNbReponseMax) text = `Vous devez choisir
+      + ${currentQuestionNbReponseMin} réponses.`;
+      alert(text);
+    }
   };
 
   const handleInputChange = (index, value) => {
@@ -41,7 +51,6 @@ const SlideShow = ({ questions, nbQuestion, cookies, idSondage }) => {
       idSondage: parseInt(idSondage),
       reponses: responses,
     };
-    console.log(dataReponse);
     fetch('http://localhost:8080/api/sondage/repondre', {
       method: 'POST',
       headers: {
@@ -52,6 +61,7 @@ const SlideShow = ({ questions, nbQuestion, cookies, idSondage }) => {
       })
       .then((response) => response.json())
       .then((data) => {
+        console.log(data);
         setSubmitted(true);
       }).then((error) => {
         console.log(error);
@@ -83,7 +93,6 @@ const SlideShow = ({ questions, nbQuestion, cookies, idSondage }) => {
   const [error, setError] = useState(null);
   
   async function fetchReponse() {
-    setLoading(true);
     setRepData([]);
     setRepDataString([]);
     setLoading(true);
@@ -157,7 +166,7 @@ const SlideShow = ({ questions, nbQuestion, cookies, idSondage }) => {
             {
               repData.map((rep) => {
                 return (
-                  <div className='form-check'>
+                  <div key={rep.id} className='form-check'>                    
                     {
                       // si y a deja des rep dans multiReponse et que la rep actuelle est dedans
                       (multiReponse[currentQuestionId] && multiReponse[currentQuestionId].includes(String(rep.id))) ?
@@ -192,7 +201,7 @@ const SlideShow = ({ questions, nbQuestion, cookies, idSondage }) => {
     </div>
     {submitted ? (
       <div className='submitted-response-div'>
-        <h3>Vos réponses ont bien été envoyées. <i class="fa-solid repondu-true fa-circle-check"></i></h3>
+        <h3>Vos réponses ont bien été envoyées. <i className="fa-solid repondu-true fa-circle-check"></i></h3>
       </div>
     ) : (
       <>
