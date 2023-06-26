@@ -1,6 +1,6 @@
 .App {
   text-align: center;
-  background-image: linear-gradient(79deg, #7439db, #C66FBC 48%, #F7944D);
+  background-image: linear-gradient(79deg, #3B8E5A, #48BF84 48%, #EEEEE2);
   font-family: Arial, sans-serif;
   color: var(--font-color-blue);
 
@@ -98,7 +98,7 @@ footer{
 }
 .sondage-div{
   color: #F7D0FF;
-  background-color: #00AFB9;
+  background-color: #2A4747;
 
   display: flex;
   flex-direction: column;

@@ -1,7 +1,7 @@
 spring:
   sql:
     init:
-      mode: always
+      mode: embedded
   datasource:
     url: jdbc:mysql://db4free.net:3306/saes4_database_2
     username: saes4_user2

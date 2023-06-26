@@ -1,12 +1,12 @@
 :root {
     --dark-blue : #0081A7;
-    --blue : #00AFB9;
-    --yellow : #FDFCDC;
+    --blue : #2A4747;
+    --yellow : #EEEEE2;
     --peach : #FED9B7;
-    --red : #F07167;
+    --red : #3B8E5A;
     
     --border-dark-blue : #00669F;
-    --border-blue : #0096A9;
+    --border-blue : #FBFBD5;
     --border-yellow : #F9F9D7;
     --border-peach : #FACDA3;
     --border-red : #EB5E4F;
@@ -17,7 +17,7 @@
     --box-shadow-peach : #FDD6A9;
     --box-shadow-red : #F26E57;
     
-    --font-color-dark-blue : #FFFFFF;
+    --font-color-dark-blue : #2A4747;
     --font-color-blue : #FFFFFF;
     --font-color-yellow : #000000;
     --font-color-peach : #000000;
