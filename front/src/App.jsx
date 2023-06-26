@@ -55,10 +55,11 @@ function App() {
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
-      <footer>
-        <span>Text Footer</span>
-      </footer>
+        <footer>
+                <span>  </span>
+        </footer>
     </div>
+
   );
 
 }
