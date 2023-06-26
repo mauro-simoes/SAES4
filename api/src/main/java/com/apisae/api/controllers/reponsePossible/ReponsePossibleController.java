@@ -14,7 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
+import java.util.Map;
 
 
 @CrossOrigin(origins = {"http://localhost:3000", "http://localhost:19000"})
@@ -45,6 +45,20 @@ public class ReponsePossibleController {
 
         try{
             serviceReponsePossible.addAllAlimentsToQuestion(questionID);
+        }catch (Exception e){
+            return ResponseEntity.internalServerError().body(new ErrorBody(e.getMessage()));
+        }
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping(path ="/addReponseTexte")
+    public ResponseEntity<Object> addReponseTexteToQuestion(@RequestBody Map<String,String> body){
+        User user = serviceUser.getCurrentUser();
+        if (!user.getRoleUser().equals(RoleUser.ADMIN))
+            return ResponseEntity.badRequest().body("Vous n'êtes pas un administrateur");
+
+        try{
+            serviceReponsePossible.addReponseTexte(Long.valueOf(body.get("questionID")), body.get("texte"));
         }catch (Exception e){
             return ResponseEntity.internalServerError().body(new ErrorBody(e.getMessage()));
         }
