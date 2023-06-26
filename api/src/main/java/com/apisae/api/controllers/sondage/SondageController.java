@@ -71,6 +71,8 @@ public class SondageController {
 
         question.setSondage(sondage);
 
+        question = questionRepository.save(question);
+
         return ResponseEntity.ok().body(question);
     }
 

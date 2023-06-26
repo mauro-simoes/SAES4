@@ -4,6 +4,7 @@ import com.apisae.api.enums.TypeReponseQuestion;
 import com.apisae.api.models.reponsepossible.Aliment;
 import com.apisae.api.models.reponsepossible.ReponseAliment;
 import com.apisae.api.models.reponsepossible.ReponsePossible;
+import com.apisae.api.models.reponsepossible.ReponseTexte;
 import com.apisae.api.models.sondage.Question;
 import com.apisae.api.repositories.sondage.QuestionRepository;
 import com.apisae.api.repositories.sondage.ReponsePossibleRepository;
@@ -53,6 +54,16 @@ public class ServiceReponsePossible {
             ReponsePossible nouvelleReponseAliment = new ReponseAliment(question,aliment);
             reponsePossibleRepository.save(nouvelleReponseAliment);
         }
+
+    }
+
+    public void addReponseTexte(@NonNull Long questionID,@NonNull String texte){
+
+        Question question = questionRepository.findById(questionID)
+                .orElseThrow(() -> new RuntimeException(String.format("La question %o n'a pas été trouvé.",questionID)));
+
+        ReponsePossible nouvelleReponseTexte = new ReponseTexte(question,texte);
+        reponsePossibleRepository.save(nouvelleReponseTexte);
 
     }
 
